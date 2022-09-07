@@ -1,0 +1,15 @@
+.l-stack-column {
+  display: flex;
+  flex-direction: column;
+  & > :not(style) + :not(style) {
+    margin: 16px 0px 0px;
+  }
+}
+
+.l-stack-row {
+  display: flex;
+  flex-direction: row;
+  & > :not(style) + :not(style) {
+    margin: 0px 0px 0px 16px;
+  }
+}
