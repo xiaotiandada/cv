@@ -6,7 +6,7 @@ const src =
 
 const id = '#1';
 
-const Button = () => {
+const Card = () => {
   return (
     <div className={styles['u-card']}>
       <img src={src} />
@@ -15,4 +15,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default Card;
