@@ -1,3 +1,8 @@
+---
+nav:
+  path: /ui
+---
+
 ## Card
 
 ### Demo1:

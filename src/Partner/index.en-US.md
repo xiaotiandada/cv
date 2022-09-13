@@ -1,3 +1,8 @@
+---
+nav:
+  path: /ui
+---
+
 ## Partner
 
 - https://www.immutable.com/

@@ -1,3 +1,8 @@
+---
+nav:
+  path: /ui
+---
+
 ## Stack
 
 Stack is concerned with one-dimensional layouts
