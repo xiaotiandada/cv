@@ -2,7 +2,7 @@
 title: ahooks - React Hooks Library
 hero:
   image: https://ahooks.js.org/logo.svg
-  desc: 一套高质量可靠的 React Hooks 库
+  desc: 一套可复制粘贴的 React UI Hooks 库
   actions:
     - text: 指南
       link: /guide
@@ -55,13 +55,13 @@ $ pnpm start
 
 感谢所有贡献者：
 
-<a href="https://github.com/alibaba/hooks/graphs/contributors">
+<!-- <a href="https://github.com/alibaba/hooks/graphs/contributors">
   <img src="https://opencollective.com/ahooks/contributors.svg?width=960&button=false" alt="contributors" />
-</a>
+</a> -->
 
 ## 👥 交流讨论
 
-<img src="https://user-images.githubusercontent.com/12526493/141303172-68f25577-c7b7-4ff7-bdff-25fd0f4d5214.JPG" width="300" />
+<!-- <img src="https://user-images.githubusercontent.com/12526493/141303172-68f25577-c7b7-4ff7-bdff-25fd0f4d5214.JPG" width="300" /> -->
 
 [1]: https://www.npmjs.com/package/ahooks
 [2]: https://npmjs.org/package/ahooks

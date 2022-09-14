@@ -1,7 +1,8 @@
 import { defineConfig } from 'dumi';
+import { hooks, ui } from './config/hooks';
 
 export default defineConfig({
-  title: 'CVUI',
+  title: 'CV',
   favicon:
     'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
   logo: 'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
@@ -13,18 +14,8 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   mode: 'site',
   menus: {
-    '/ui': [
-      {
-        title: 'Components',
-        children: ['Card', 'Button', 'Partner', 'Stack'],
-      },
-    ],
-    '/hooks': [
-      {
-        title: 'Hooks',
-        children: ['Hooks/useReRender', 'Hooks/useUpdate', 'Hooks/useFullscreen'],
-      },
-    ],
+    '/ui': ui,
+    '/hooks': hooks,
   },
   navs: {
     'en-US': [
@@ -33,7 +24,7 @@ export default defineConfig({
       { title: 'Hooks', path: '/hooks' },
       {
         title: 'GitHub',
-        path: 'https://github.com/xiaotiandada/cvui',
+        path: 'https://github.com/xiaotiandada/cv',
       },
     ],
   },
