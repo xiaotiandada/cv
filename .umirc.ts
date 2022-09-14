@@ -19,11 +19,18 @@ export default defineConfig({
         children: ['Card', 'Button', 'Partner', 'Stack'],
       },
     ],
+    '/hooks': [
+      {
+        title: 'Hooks',
+        children: ['Hooks/useReRender', 'Hooks/useUpdate', 'Hooks/useFullscreen'],
+      },
+    ],
   },
   navs: {
     'en-US': [
       { title: 'Guide', path: '/guide' },
       { title: 'UI', path: '/ui' },
+      { title: 'Hooks', path: '/hooks' },
       {
         title: 'GitHub',
         path: 'https://github.com/xiaotiandada/cvui',

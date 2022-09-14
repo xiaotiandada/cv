@@ -1,12 +1,22 @@
-/**
- * iframe: true // 设置为数值可控制 iframe 高度
- */
-
 import React from 'react';
-import '../index.less';
+import styles from '../index.less';
 
-const Template = () => {
-  return <div>template</div>;
+const Stack = () => {
+  return (
+    <div>
+      <div className={styles['l-stack-column']}>
+        <button className="u-btn">Button</button>
+        <button className="u-btn">Button</button>
+        <button className="u-btn">Button</button>
+      </div>
+      <br />
+      <div className={styles['l-stack-row']}>
+        <button className="u-btn">Button</button>
+        <button className="u-btn">Button</button>
+        <button className="u-btn">Button</button>
+      </div>
+    </div>
+  );
 };
 
-export default Template;
+export default Stack;
