@@ -1,5 +1,5 @@
 import { defineConfig } from 'dumi';
-import { hooks, ui } from './config/hooks';
+import { hooks, ui, utils } from './config/hooks';
 
 export default defineConfig({
   title: 'CV',
@@ -16,12 +16,16 @@ export default defineConfig({
   menus: {
     '/ui': ui,
     '/hooks': hooks,
+    '/utils': utils,
   },
   navs: {
     'en-US': [
       { title: 'Guide', path: '/guide' },
       { title: 'UI', path: '/ui' },
       { title: 'Hooks', path: '/hooks' },
+      { title: 'Utils', path: '/utils' },
+      { title: 'Folder Structure', path: '/folder-structure' },
+      { title: 'Scaffold', path: '/scaffold' },
       {
         title: 'GitHub',
         path: 'https://github.com/xiaotiandada/cv',
