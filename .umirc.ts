@@ -24,7 +24,6 @@ export default defineConfig({
       { title: 'UI', path: '/ui' },
       { title: 'Hooks', path: '/hooks' },
       { title: 'Utils', path: '/utils' },
-      { title: 'Folder Structure', path: '/folder-structure' },
       { title: 'Scaffold', path: '/scaffold' },
       {
         title: 'GitHub',

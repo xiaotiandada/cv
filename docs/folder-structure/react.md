@@ -1,3 +1,0 @@
-# React
-
-https://reactjs.org/
