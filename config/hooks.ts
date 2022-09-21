@@ -15,6 +15,6 @@ export const hooks = [
 export const utils = [
   {
     title: 'Utils',
-    children: ['utils/file'],
+    children: ['utils/file', 'utils/other', 'utils/chain'],
   },
 ];
