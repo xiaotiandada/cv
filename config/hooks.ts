@@ -1,7 +1,7 @@
 export const ui = [
   {
     title: 'Components',
-    children: ['ui/Card', 'ui/Button', 'ui/Partner', 'ui/Stack'],
+    children: ['ui/Card', 'ui/Button', 'ui/Partner', 'ui/Stack', 'ui/Swap'],
   },
 ];
 

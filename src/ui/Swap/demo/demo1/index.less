@@ -1,0 +1,38 @@
+.swap {
+  position: relative;
+  display: inline-grid;
+  cursor: pointer;
+  user-select: none;
+  place-content: center;
+}
+.swap > * {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  transition-property: all;
+}
+.swap input {
+  appearance: none;
+}
+
+.swap input[type='checkbox'] ~ .swap-on,
+.swap input[type='checkbox']:checked ~ .swap-off {
+  opacity: 0;
+}
+
+.swap input[type='checkbox'] ~ .swap-off,
+.swap input[type='checkbox']:checked ~ .swap-on {
+  opacity: 1;
+}
+
+.swap-rotate input[type='checkbox']:checked ~ .swap-on {
+  transform: rotate(0deg);
+}
+.swap-rotate input[type='checkbox']:checked ~ .swap-off {
+  transform: rotate(-45deg);
+}
+
+.swap-rotate input[type='checkbox'] ~ .swap-on {
+  transform: rotate(45deg);
+}

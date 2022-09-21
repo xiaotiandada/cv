@@ -1,13 +1,13 @@
 import React from 'react';
-import { firstUpperCase } from '../index';
+import { shortenString } from '../index';
 
-const str = 'hello';
+const address = '0x8Dd609188f6479732AC5aEa52e53264FF8Dc0Eb6';
 
 export default () => {
   return (
     <div>
-      <div>old: {str}</div>
-      <div>new: {firstUpperCase(str)}</div>
+      <div>address: {address}</div>
+      <div>address: {shortenString(address)}</div>
     </div>
   );
 };
