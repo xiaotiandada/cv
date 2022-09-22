@@ -1,5 +1,5 @@
 import { defineConfig } from 'dumi';
-import { hooks, ui, utils } from './config/hooks';
+// import { hooks, ui, utils } from './config/hooks';
 
 export default defineConfig({
   title: 'CV',
@@ -14,9 +14,9 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   mode: 'site',
   menus: {
-    '/ui': ui,
-    '/hooks': hooks,
-    '/utils': utils,
+    // '/ui': ui,
+    // '/hooks': hooks,
+    // '/utils': utils,
   },
   navs: {
     'en-US': [
