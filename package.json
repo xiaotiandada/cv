@@ -30,7 +30,9 @@
     ]
   },
   "dependencies": {
+    "@usedapp/core": "^1.1.5",
     "ahooks": "^3.7.1",
+    "alchemy-sdk": "^2.1.1",
     "classnames": "^2.3.1",
     "crypto-js": "^4.1.1",
     "ethers": "^5.7.1",
