@@ -1,8 +1,8 @@
 ---
 title: ahooks - React Hooks Library
 hero:
-  image: https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png
-  desc: 一套可复制粘贴的 React UI Hooks 库
+  image: https://i.imgur.com/MbQPDTX.png
+  desc: 算是记录了自己平时的一些积累吧（我家的柴犬叫米饭🍚）
   actions:
     - text: 指南
       link: /guide
