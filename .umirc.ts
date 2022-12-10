@@ -26,10 +26,12 @@ export default defineConfig({
       { title: 'Utils', path: '/utils' },
       { title: 'Chain', path: '/chain' },
       { title: 'Scaffold', path: '/scaffold' },
+      { title: '课程学习', path: '/course' },
       {
         title: 'GitHub',
         path: 'https://github.com/xiaotiandada/cv',
       },
     ],
   },
+  mfsu: {},
 });
