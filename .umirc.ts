@@ -25,7 +25,7 @@ export default defineConfig({
       { title: 'Hooks', path: '/hooks' },
       { title: 'Utils', path: '/utils' },
       { title: 'Chain', path: '/chain' },
-      { title: 'Scaffold', path: '/scaffold' },
+      { title: '脚手架', path: '/scaffold' },
       { title: '课程学习', path: '/course' },
       {
         title: 'GitHub',
