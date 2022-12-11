@@ -1,26 +1,52 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int main()
+void print(vector<int> &input)
 {
-    cout << "Hello"; // 输出 Hello World!
-
-    cout << "Size of char : " << sizeof(char) << endl;
-    cout << "Size of int : " << sizeof(int) << endl;
-    cout << "Size of short int : " << sizeof(short int) << endl;
-    cout << "Size of long int : " << sizeof(long int) << endl;
-    cout << "Size of float : " << sizeof(float) << endl;
-    cout << "Size of double : " << sizeof(double) << endl;
-    cout << "Size of wchar_t : " << sizeof(wchar_t) << endl;
-
-    return 0;
+    for (int i = 0; i < input.size(); i++)
+    {
+        cout << input.at(i) << ' ';
+    }
 }
 
 class Solution
 {
 public:
-    void moveZeroes(std::vector<int> &nums)
+    void moveZeroes(vector<int> &nums)
     {
-        std::cout << "Hello World 123 123" << std::endl;
+
+        // 使用双指针，左指针指向当前已经处理好的序列的尾部，右指针指向待处理序列的头部。
+        int n = nums.size();
+        int left = 0;
+        int right = 0;
+
+        while (right < n) {
+            // 每次右指针指向非零数
+            if (nums[right]) {
+                // 则将左右指针对应的数交换
+                swap(nums[left], nums[right]);
+                // 同时左指针右移
+                left++;
+            }
+            // 右指针不断向右移动
+            right++;
+        }
+
+        print(nums);
     }
 };
+
+int main()
+{
+    Solution SolutionFn;
+
+    vector<int> test;
+    test.push_back(0);
+    test.push_back(1);
+    test.push_back(0);
+    test.push_back(3);
+    test.push_back(12);
+
+    SolutionFn.moveZeroes(test);
+}
