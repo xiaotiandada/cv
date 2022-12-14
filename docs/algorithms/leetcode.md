@@ -5,6 +5,8 @@ order: 1
 
 ### 283. 移动零
 
+:one: :two:
+
 - http://www.leetcodecn.com/
 - https://leetcode.cn/problems/move-zeroes/solution/yi-dong-ling-by-leetcode-solution/
 
@@ -30,4 +32,24 @@ public:
       }
     }
 };
+```
+
+```TypeScript | pure
+/**
+ Do not return anything, modify nums in-place instead.
+ */
+function moveZeroes(nums: number[]): void {
+  const n = nums.length;
+  let left = 0;
+  let right = 0;
+
+  while (right < n) {
+    if (nums[right]) {
+      // swap
+      [nums[right], nums[left]] = [nums[left], nums[right]];
+      left++;
+    }
+    right++;
+  }
+}
 ```
