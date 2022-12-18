@@ -5,10 +5,12 @@ order: 1
 
 ### 283. 移动零
 
-:one: :two:
+:one: :two: :three:
 
 - http://www.leetcodecn.com/
 - https://leetcode.cn/problems/move-zeroes/solution/yi-dong-ling-by-leetcode-solution/
+
+**双指针解法**
 
 ```c++ | pure
 class Solution {
@@ -52,4 +54,55 @@ function moveZeroes(nums: number[]): void {
     right++;
   }
 }
+```
+
+### 11. 盛最多水的容器
+
+- https://leetcode.cn/problems/container-with-most-water/
+
+**暴力解法**
+
+```c++ | pure
+class Solution
+{
+public:
+  int maxArea(vector<int> &height)
+  {
+    int result = 0;
+    for (int i = 0; i < height.size() - 1; i++)
+    {
+      for (int j = i + 1; j < height.size(); j++)
+      {
+
+        int area = (j - i) * std::min(height[i], height[j]);
+
+        result = std::max(result, area);
+      }
+    }
+
+    cout << "result max: " << result << endl;
+    return result;
+  }
+};
+```
+
+**双指针解法**
+
+:one:
+
+```c++ | pure
+  public:
+  int maxArea(vector<int> &height)
+  {
+    int result = 0;
+    for (int i = 0, j = height.size() - 1; i < j;)
+    {
+
+      int minHeight = height[i] < height[j] ? height[i++] : height[j--];
+      result = std::max(result, (j - i + 1) * minHeight);
+    }
+
+    cout << "result max: " << result << endl;
+    return result;
+  }
 ```
