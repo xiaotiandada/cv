@@ -12,7 +12,7 @@ order: 1
 
 **双指针解法**
 
-```c++ | pure
+```cpp | pure
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
@@ -36,7 +36,7 @@ public:
 };
 ```
 
-```TypeScript | pure
+```ts | pure
 /**
  Do not return anything, modify nums in-place instead.
  */
@@ -64,7 +64,7 @@ function moveZeroes(nums: number[]): void {
 
 :one: :two:
 
-```c++ | pure
+```cpp | pure
 class Solution
 {
 public:
@@ -92,7 +92,7 @@ public:
 
 :one: :two:
 
-```c++ | pure
+```cpp | pure
   public:
   int maxArea(vector<int> &height)
   {
@@ -116,7 +116,7 @@ public:
 
 ![](https://i.imgur.com/vWvO72T.png)
 
-```c++ | pure
+```cpp ｜ pure
 class Solution {
 public:
     int climbStairs(int n) {
