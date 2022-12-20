@@ -74,9 +74,9 @@ public:
       for (int j = i + 1; j < height.size(); j++)
       {
 
-        int area = (j - i) * std::min(height[i], height[j]);
+        int area = (j - i) * min(height[i], height[j]);
 
-        result = std::max(result, area);
+        result = max(result, area);
       }
     }
 
@@ -99,7 +99,7 @@ public:
     {
 
       int minHeight = height[i] < height[j] ? height[i++] : height[j--];
-      result = std::max(result, (j - i + 1) * minHeight);
+      result = max(result, (j - i + 1) * minHeight);
     }
 
     cout << "result max: " << result << endl;

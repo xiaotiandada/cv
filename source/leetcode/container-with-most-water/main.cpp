@@ -9,14 +9,14 @@ public:
   int maxArea(vector<int> &height)
   {
     int result = 0;
-    for (int i = 0; i < height.size() - 1; i++)
-    {
-      for (int j = i + 1; j < height.size(); j++)
-      {
+    int len = height.size();
 
-        int area = (j - i) * std::min(height[i], height[j]);
+    for (int i = 0; i < len - 1; i++) {
+      for (int j = i + 1; j < len; j++) {
 
-        result = std::max(result, area);
+        int area = (j - i) * min(height[i], height[j]);
+
+        result = max(result, area);
       }
     }
 
@@ -28,13 +28,13 @@ public:
   int maxArea1(vector<int> &height)
   {
     int result = 0;
-    for (int i = 0, j = height.size() - 1; i < j;)
-    {
+    int len = height.size();
 
+    for (int i = 0, j = len; i < j;) {
       int minHeight = height[i] < height[j] ? height[i++] : height[j--];
-      result = std::max(result, (j - i + 1) * minHeight);
+      result = max(result, (j - i + 1) * minHeight);
     }
-
+ 
     cout << "result max: " << result << endl;
     return result;
   }
@@ -56,6 +56,6 @@ int main()
   test.push_back(3);
   test.push_back(7);
 
-  // SolutionFn.maxArea(test);
+  SolutionFn.maxArea(test);
   SolutionFn.maxArea1(test);
 }
