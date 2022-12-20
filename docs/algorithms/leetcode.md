@@ -62,6 +62,8 @@ function moveZeroes(nums: number[]): void {
 
 **暴力解法**
 
+:one: :two:
+
 ```c++ | pure
 class Solution
 {
@@ -88,7 +90,7 @@ public:
 
 **双指针解法**
 
-:one:
+:one: :two:
 
 ```c++ | pure
   public:
@@ -105,4 +107,35 @@ public:
     cout << "result max: " << result << endl;
     return result;
   }
+```
+
+### 70. 爬楼梯
+
+- https://leetcode.cn/problems/climbing-stairs/
+- https://leetcode.cn/problems/climbing-stairs/solution/pa-lou-ti-by-leetcode-solution/
+
+![](https://i.imgur.com/vWvO72T.png)
+
+```c++ | pure
+class Solution {
+public:
+    int climbStairs(int n) {
+
+      if (n <= 3) {
+        return n;
+      }
+
+      int p = 1;
+      int q = 2;
+      int r = 3;
+
+      for (int i = 4; i <= n; i++) {
+        p = q;
+        q = r;
+        r = p + q;
+      }
+
+      return r;
+    }
+};
 ```
