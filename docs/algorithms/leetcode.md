@@ -245,3 +245,9 @@ vector<vector<int>> threeSum(vector<int>& nums) {
     return ans;
 }
 ```
+
+### leetcode 插件
+
+path:
+
+- /source/leetcode/\*.cpp
