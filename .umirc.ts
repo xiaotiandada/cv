@@ -34,4 +34,5 @@ export default defineConfig({
     ],
   },
   mfsu: {},
+  plugins: ['./src/plugin/codeMD.ts'],
 });
