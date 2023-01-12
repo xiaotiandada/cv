@@ -3,6 +3,92 @@ title: leetcode
 order: 1
 ---
 
+### 144.二叉树的前序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=144 lang=cpp
+ *
+ * [144] 二叉树的前序遍历
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void preorder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+
+        res.push_back(root->val);
+        preorder(root->left, res);
+        preorder(root->right, res);
+    }
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> res;
+        preorder(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 145.二叉树的后序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=145 lang=cpp
+ *
+ * [145] 二叉树的后序遍历
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void postOrder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) return;
+
+        postOrder(root->left, res);
+        postOrder(root->right, res);
+        res.push_back(root->val);
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        postOrder(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 155.最小栈
 
 ```cpp
@@ -223,6 +309,64 @@ public:
 
 ```
 
+### 242.有效的字母异位词
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=242 lang=cpp
+ *
+ * [242] 有效的字母异位词
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+        return s == t;
+    }
+};
+// @lc code=end
+
+
+/*
+ * @lc app=leetcode.cn id=242 lang=cpp
+ *
+ * [242] 有效的字母异位词
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        vector<int> table(26, 0);
+        for (auto& ch: s) {
+            table[ch - 'a']++;
+        }
+        for (auto& ch: t ) {
+            table[ch - 'a']--;
+            if (table[ch - 'a'] < 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 3sum
 
 ```cpp
@@ -318,6 +462,59 @@ int main()
     }
 
 }
+
+```
+
+### 589.n-叉树的前序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=589 lang=cpp
+ *
+ * [589] N 叉树的前序遍历
+ */
+
+// @lc code=start
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+
+    void helper(const Node* root, vector<int> &res) {
+        if (root == nullptr) return;
+
+        res.emplace_back(root->val);
+        for (auto &ch: root->children) {
+            helper(ch, res);
+        }
+    }
+
+    vector<int> preorder(Node* root) {
+        vector<int> res;
+        helper(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
 
 ```
 
@@ -450,6 +647,51 @@ public:
  * int param_2 = obj->get(key);
  * obj->remove(key);
  */
+// @lc code=end
+
+
+```
+
+### 94.二叉树的中序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=94 lang=cpp
+ *
+ * [94] 二叉树的中序遍历
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+
+        inorder(root->left, res);
+        res.push_back(root->val);
+        inorder(root->right, res);
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector <int> res;
+        inorder(root, res);
+        return res;
+    }
+};
 // @lc code=end
 
 
