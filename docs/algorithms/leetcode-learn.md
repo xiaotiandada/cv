@@ -3,6 +3,8 @@ title: leetcode
 order: 1
 ---
 
+- https://visualgo.net/zh/bst
+
 - https://blog.csdn.net/weixin_45926367/article/details/106088313
 
 ![](https://pic.leetcode-cn.com/bd95aab8e74b7b999fc7cc826fd01377b6c5ed95ff1dd54ff43085b022293f36-file_1587549768626)

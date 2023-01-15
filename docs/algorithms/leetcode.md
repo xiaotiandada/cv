@@ -270,6 +270,111 @@ public:
 
 ```
 
+### 22.括号生成
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=22 lang=cpp
+ *
+ * [22] 括号生成
+ * 方法一：暴力法
+ */
+
+// @lc code=start
+class Solution {
+public:
+
+    bool valid(const string &str) {
+        int balance = 0;
+
+        for (char c: str) {
+            if (c == '(')  {
+                ++balance;
+            } else {
+                --balance;
+            }
+
+            if (balance < 0) {
+                return false;
+            }
+        }
+
+        return balance == 0;
+    }
+
+    void generate_all(string &current, int n, vector<string> &result) {
+        if (n == current.size()) {
+            if (valid(current)) {
+                result.push_back(current);
+            }
+            return;
+        }
+
+        current += '(';
+        generate_all(current, n, result);
+        current.pop_back();
+        current += ')';
+        generate_all(current, n, result);
+        current.pop_back();
+    }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string current;
+
+        generate_all(current, n * 2, result);
+
+        return result;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 226.翻转二叉树
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=226 lang=cpp
+ *
+ * [226] 翻转二叉树
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+
+        if (root == nullptr) {
+            return nullptr;
+        }
+
+        TreeNode* left = invertTree(root->left);
+        TreeNode* right = invertTree(root->right);
+
+        root->left = right;
+        root->right = left;
+
+        return root;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 24.两两交换链表中的节点
 
 ```cpp
@@ -518,6 +623,44 @@ public:
 
 ```
 
+### 70.爬楼梯
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=70 lang=cpp
+ *
+ * [70] 爬楼梯
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int climbStairs(int n) {
+
+        // 0 0 1
+        // 0 1 1
+        // 1 2 3
+        // 2 5 8
+
+        if (n <= 3) {
+            return n;
+        }
+
+        int p = 1, q = 2, r = 3;
+
+        for (int i = 4; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 705.设计哈希集合
 
 ```cpp
@@ -694,45 +837,6 @@ public:
 };
 // @lc code=end
 
-
-```
-
-### climbing-stairs
-
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-class Solution {
-public:
-    int climbStairs(int n) {
-
-      if (n <= 3) {
-        return n;
-      }
-
-      int p = 1;
-      int q = 2;
-      int r = 3;
-
-      for (int i = 4; i <= n; i++) {
-        p = q;
-        q = r;
-        r = p + q;
-      }
-
-      return r;
-    }
-};
-
-int main()
-{
-    Solution SolutionFn;
-    int result = SolutionFn.climbStairs(5);
-
-    cout << result << endl;
-}
 
 ```
 
