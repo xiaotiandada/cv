@@ -3,6 +3,369 @@ title: leetcode
 order: 1
 ---
 
+### 20.有效的括号
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=20 lang=cpp
+ *
+ * [20] 有效的括号
+ * 方法一：栈
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isValid(string s) {
+        int n = s.size();
+        // 有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 \text{False}False，省去后续的遍历判断过程。
+        if (n % 2 == 1) {
+            return false;
+        }
+
+        unordered_map<char, char> pairs = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+
+        stack<char> stk;
+
+        for (char ch: s) {
+            // 如果有右括号
+            if (pairs.count(ch)) {
+                // 栈空 或者顶部值不匹配
+                if (stk.empty() || stk.top() != pairs[ch]) {
+                    return false;
+                }
+                // 匹配出栈
+                stk.pop();
+            } else {
+                // 左括号入栈
+                stk.push(ch);
+            }
+        }
+        // 在遍历结束后，如果栈中没有左括号，说明我们将字符串 s 中的所有左括号闭合，返回 True，否则返回 False。
+        return stk.empty();
+    }
+};
+// @lc code=end
+
+
+```
+
+### 22.括号生成
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=22 lang=cpp
+ *
+ * [22] 括号生成
+ * 方法一：暴力法
+ */
+
+// @lc code=start
+class Solution {
+public:
+
+    bool valid(const string &str) {
+        int balance = 0;
+
+        for (char c: str) {
+            if (c == '(')  {
+                ++balance;
+            } else {
+                --balance;
+            }
+
+            if (balance < 0) {
+                return false;
+            }
+        }
+
+        return balance == 0;
+    }
+
+    void generate_all(string &current, int n, vector<string> &result) {
+        if (n == current.size()) {
+            if (valid(current)) {
+                result.push_back(current);
+            }
+            return;
+        }
+
+        current += '(';
+        generate_all(current, n, result);
+        current.pop_back();
+        current += ')';
+        generate_all(current, n, result);
+        current.pop_back();
+    }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string current;
+
+        generate_all(current, n * 2, result);
+
+        return result;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 24.两两交换链表中的节点
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=24 lang=cpp
+ *
+ * [24] 两两交换链表中的节点
+ * 方法一：递归
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode* newHead = head->next;
+        head->next = swapPairs(newHead->next);
+        newHead->next = head;
+        return newHead;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 70.爬楼梯
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=70 lang=cpp
+ *
+ * [70] 爬楼梯
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int climbStairs(int n) {
+
+        // 0 0 1
+        // 0 1 1
+        // 1 2 3
+        // 2 5 8
+
+        if (n <= 3) {
+            return n;
+        }
+
+        int p = 1, q = 2, r = 3;
+
+        for (int i = 4; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 94.二叉树的中序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=94 lang=cpp
+ *
+ * [94] 二叉树的中序遍历
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+
+        inorder(root->left, res);
+        res.push_back(root->val);
+        inorder(root->right, res);
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector <int> res;
+        inorder(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 98.验证二叉搜索树
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=98 lang=cpp
+ *
+ * [98] 验证二叉搜索树
+ * 方法一: 递归
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode *root, long long lower, long long upper) {
+        if (root == nullptr) {
+            return true;
+        }
+
+        if (root->val <= lower || root->val >= upper) {
+            return false;
+        }
+
+        return helper(root->left, lower, root->val) && helper(root->right, root->val, upper);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_MIN, LONG_MAX);
+    }
+};
+// @lc code=end
+
+
+```
+
+### 104.二叉树的最大深度
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=104 lang=cpp
+ *
+ * [104] 二叉树的最大深度
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+        return max(maxDepth(root->left), maxDepth(root->right)) + 1;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 111.二叉树的最小深度
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=111 lang=cpp
+ *
+ * [111] 二叉树的最小深度
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+
+        if (root->left == nullptr && root->right == nullptr) {
+            return 1;
+        }
+
+        int min_depth = INT_MAX;
+        if (root->left != nullptr) {
+            min_depth = min(minDepth(root->left), min_depth);
+        }
+        if (root->right != nullptr) {
+            min_depth = min(minDepth(root->right), min_depth);
+        }
+
+        return min_depth + 1;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 144.二叉树的前序遍历
 
 ```cpp
@@ -139,57 +502,6 @@ public:
 
 ```
 
-### 20.有效的括号
-
-```cpp
-/*
- * @lc app=leetcode.cn id=20 lang=cpp
- *
- * [20] 有效的括号
- * 方法一：栈
- */
-
-// @lc code=start
-class Solution {
-public:
-    bool isValid(string s) {
-        int n = s.size();
-        // 有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 \text{False}False，省去后续的遍历判断过程。
-        if (n % 2 == 1) {
-            return false;
-        }
-
-        unordered_map<char, char> pairs = {
-            {')', '('},
-            {']', '['},
-            {'}', '{'}
-        };
-
-        stack<char> stk;
-
-        for (char ch: s) {
-            // 如果有右括号
-            if (pairs.count(ch)) {
-                // 栈空 或者顶部值不匹配
-                if (stk.empty() || stk.top() != pairs[ch]) {
-                    return false;
-                }
-                // 匹配出栈
-                stk.pop();
-            } else {
-                // 左括号入栈
-                stk.push(ch);
-            }
-        }
-        // 在遍历结束后，如果栈中没有左括号，说明我们将字符串 s 中的所有左括号闭合，返回 True，否则返回 False。
-        return stk.empty();
-    }
-};
-// @lc code=end
-
-
-```
-
 ### 206.反转链表
 
 ```cpp
@@ -270,68 +582,6 @@ public:
 
 ```
 
-### 22.括号生成
-
-```cpp
-/*
- * @lc app=leetcode.cn id=22 lang=cpp
- *
- * [22] 括号生成
- * 方法一：暴力法
- */
-
-// @lc code=start
-class Solution {
-public:
-
-    bool valid(const string &str) {
-        int balance = 0;
-
-        for (char c: str) {
-            if (c == '(')  {
-                ++balance;
-            } else {
-                --balance;
-            }
-
-            if (balance < 0) {
-                return false;
-            }
-        }
-
-        return balance == 0;
-    }
-
-    void generate_all(string &current, int n, vector<string> &result) {
-        if (n == current.size()) {
-            if (valid(current)) {
-                result.push_back(current);
-            }
-            return;
-        }
-
-        current += '(';
-        generate_all(current, n, result);
-        current.pop_back();
-        current += ')';
-        generate_all(current, n, result);
-        current.pop_back();
-    }
-
-    vector<string> generateParenthesis(int n) {
-        vector<string> result;
-        string current;
-
-        generate_all(current, n * 2, result);
-
-        return result;
-    }
-};
-// @lc code=end
-
-
-```
-
 ### 226.翻转二叉树
 
 ```cpp
@@ -368,45 +618,6 @@ public:
         root->right = left;
 
         return root;
-    }
-};
-// @lc code=end
-
-
-```
-
-### 24.两两交换链表中的节点
-
-```cpp
-/*
- * @lc app=leetcode.cn id=24 lang=cpp
- *
- * [24] 两两交换链表中的节点
- * 方法一：递归
- */
-
-// @lc code=start
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* swapPairs(ListNode* head) {
-        if (head == nullptr || head->next == nullptr) {
-            return head;
-        }
-
-        ListNode* newHead = head->next;
-        head->next = swapPairs(newHead->next);
-        newHead->next = head;
-        return newHead;
     }
 };
 // @lc code=end
@@ -623,44 +834,6 @@ public:
 
 ```
 
-### 70.爬楼梯
-
-```cpp
-/*
- * @lc app=leetcode.cn id=70 lang=cpp
- *
- * [70] 爬楼梯
- */
-
-// @lc code=start
-class Solution {
-public:
-    int climbStairs(int n) {
-
-        // 0 0 1
-        // 0 1 1
-        // 1 2 3
-        // 2 5 8
-
-        if (n <= 3) {
-            return n;
-        }
-
-        int p = 1, q = 2, r = 3;
-
-        for (int i = 4; i <= n; i++) {
-            p = q;
-            q = r;
-            r = p + q;
-        }
-        return r;
-    }
-};
-// @lc code=end
-
-
-```
-
 ### 705.设计哈希集合
 
 ```cpp
@@ -790,51 +963,6 @@ public:
  * int param_2 = obj->get(key);
  * obj->remove(key);
  */
-// @lc code=end
-
-
-```
-
-### 94.二叉树的中序遍历
-
-```cpp
-/*
- * @lc app=leetcode.cn id=94 lang=cpp
- *
- * [94] 二叉树的中序遍历
- */
-
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-
-    void inorder(TreeNode *root, vector<int> &res) {
-        if (root == nullptr) {
-            return;
-        }
-
-        inorder(root->left, res);
-        res.push_back(root->val);
-        inorder(root->right, res);
-    }
-
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector <int> res;
-        inorder(root, res);
-        return res;
-    }
-};
 // @lc code=end
 
 

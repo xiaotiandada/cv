@@ -67,11 +67,25 @@ const parseFileExtension = (filename: string): string => {
   return filename.substring(filename.lastIndexOf('.'));
 };
 
+// https://github.com/reduxjs/redux/blob/master/src/compose.ts
+export const compose = (...fn: Function[]) => {
+  if (fn.length === 0) {
+    return <T>(arg: T) => arg;
+  }
+
+  if (fn.length === 1) {
+    return fn[0];
+  }
+
+  return fn.reduce(
+    (a, b) =>
+      (...args: any) =>
+        a(b(...args)),
+  );
+};
+
 // @TODO Released as a separate package
 export default (api: IApi) => {
-  // 编写插件内容
-  // console.log('api', api)
-
   const basePath = path.join(__dirname, '../../source/leetcode');
   const targetPath = path.join(__dirname, '../../docs/algorithms');
 
@@ -86,7 +100,29 @@ order: 1
 ---
 `;
 
-  files.forEach((file) => {
+  /**
+   * Files Sort
+   * @param files
+   * @returns
+   */
+  const filesSort = (files: string[]): string[] =>
+    files.sort((a: string, b: string) => {
+      const afilename = parseFilename(a);
+      const bfilename = parseFilename(b);
+
+      const aName = afilename.split('.')[0];
+      const bName = bfilename.split('.')[0];
+
+      if (isNaN(Number(aName)) || isNaN(Number(bName))) {
+        return 0;
+      }
+
+      return Number(aName) - Number(bName);
+    });
+
+  const filesList = compose(filesSort)(files);
+
+  filesList.forEach((file: string) => {
     const fileContent = readFile(path.join(basePath, file));
     const extension = parseFileExtension(file);
     const filename = parseFilename(file);
