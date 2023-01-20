@@ -1,13 +1,34 @@
 ---
-title: leetcode
+title: 笔记
 order: 1
 ---
 
+- https://oi-wiki.org
 - https://visualgo.net/zh/bst
 
-- https://blog.csdn.net/weixin_45926367/article/details/106088313
+- https://github.com/search?q=leetcode
 
-![](https://pic.leetcode-cn.com/bd95aab8e74b7b999fc7cc826fd01377b6c5ed95ff1dd54ff43085b022293f36-file_1587549768626)
+  - https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/
+  - https://github.com/haoel/leetcode
+  - https://github.com/afatcoder/LeetcodeTop
+  - https://github.com/doocs/leetcode
+
+- https://blog.csdn.net/weixin_45926367/article/details/106088313
+- http://www.matrix67.com/blog/archives/361
+
+![](https://i.imgur.com/ADjn0WX.png)
+
+![image-20230121032058780](https://i.imgur.com/eP6ZcIt.png)
+
+![image-20230121032318027](https://i.imgur.com/Ja4p6p7.png)
+
+![image-20230121032235405](https://i.imgur.com/yagWDnb.png)
+
+![image-20230121032501097](https://i.imgur.com/ZNDJsCg.png)
+
+![image-20230121033227039](https://i.imgur.com/KhUEfsA.png)
+
+![image-20230121033327886](https://i.imgur.com/cZdgQdd.png)
 
 ### 283. 移动零
 

@@ -1,6 +1,6 @@
 ---
 title: leetcode
-order: 1
+order: 2
 ---
 
 ### 20.有效的括号
