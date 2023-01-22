@@ -18,6 +18,8 @@ order: 1
 - https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92
 - https://www.beyond3d.com/content/articles/8/
 - https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95
+- https://en.wikipedia.org/wiki/Dynamic_programming
+- https://blog.csdn.net/midnight_time/article/details/89760858
 
 ![](https://i.imgur.com/ADjn0WX.png)
 
