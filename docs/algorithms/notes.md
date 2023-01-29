@@ -20,6 +20,15 @@ order: 1
 - https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95
 - https://en.wikipedia.org/wiki/Dynamic_programming
 - https://blog.csdn.net/midnight_time/article/details/89760858
+- https://programmercarl.com/
+- https://leetcode.com/problems/triangle/solutions/38735/Python-easy-to-understand-solutions-(top-down-bottom-up)/
+
+**Trie 树**
+
+- https://en.wikipedia.org/wiki/Trie
+- https://www.cxyxiaowu.com/7535.html
+- https://zhuanlan.zhihu.com/p/28891541
+- https://oi-wiki.org/string/trie/
 
 ![](https://i.imgur.com/ADjn0WX.png)
 
@@ -40,6 +49,22 @@ order: 1
 ![image-20230122163011067](https://i.imgur.com/VgBLhkA.jpg)
 
 ![image-20230122163735927](https://i.imgur.com/RMh0DJs.jpg)
+
+**并查集**
+
+![image-20230130012310067](https://i.imgur.com/fjIePuP.jpg)
+
+![image-20230130012912964](https://i.imgur.com/ylVeSpJ.png)
+
+![image-20230130012931826](https://i.imgur.com/YKeYZAi.jpg)
+
+![image-20230130012945602](https://i.imgur.com/p49U1wG.png)
+
+![image-20230130012857842](https://i.imgur.com/Q1hsvPd.jpg)
+
+![image-20230130013314799](https://i.imgur.com/ORQEuWs.png)
+
+![image-20230130013357256](https://i.imgur.com/FYj9bkj.jpg)
 
 ### 283. 移动零
 
