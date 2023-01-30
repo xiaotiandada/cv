@@ -22,6 +22,9 @@ order: 1
 - https://blog.csdn.net/midnight_time/article/details/89760858
 - https://programmercarl.com/
 - https://leetcode.com/problems/triangle/solutions/38735/Python-easy-to-understand-solutions-(top-down-bottom-up)/
+- https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/
+- `https://leetcode.com/problems/shortest-path-in-binary-matrix/solutions/313347/A*-search-in-Python/`
+- https://zxi.mytechroad.com/blog/searching/8-puzzles-bidirectional-astar-vs-bidirectional-bfs/
 
 **Trie 树**
 
@@ -30,7 +33,11 @@ order: 1
 - https://zhuanlan.zhihu.com/p/28891541
 - https://oi-wiki.org/string/trie/
 
+---
+
 ![](https://i.imgur.com/ADjn0WX.png)
+
+**DFS**
 
 ![image-20230121032058780](https://i.imgur.com/eP6ZcIt.png)
 
@@ -42,7 +49,11 @@ order: 1
 
 ![image-20230121033227039](https://i.imgur.com/KhUEfsA.png)
 
+**BFS**
+
 ![image-20230121033327886](https://i.imgur.com/cZdgQdd.png)
+
+**贪心**
 
 ![image-20230122162739165](https://i.imgur.com/Z014Sws.jpg)
 
@@ -65,6 +76,16 @@ order: 1
 ![image-20230130013314799](https://i.imgur.com/ORQEuWs.png)
 
 ![image-20230130013357256](https://i.imgur.com/FYj9bkj.jpg)
+
+![image-20230130194953668](https://i.imgur.com/ufkcRL9.png)
+
+![image-20230130224208440](https://i.imgur.com/1fC5aPT.png)
+
+![image-20230130224258109](https://i.imgur.com/rgWLb1m.png)
+
+![image-20230130224435215](https://i.imgur.com/mEtE6xf.png)
+
+---
 
 ### 283. 移动零
 
