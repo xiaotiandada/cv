@@ -25,6 +25,7 @@ order: 1
 - https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/
 - `https://leetcode.com/problems/shortest-path-in-binary-matrix/solutions/313347/A*-search-in-Python/`
 - https://zxi.mytechroad.com/blog/searching/8-puzzles-bidirectional-astar-vs-bidirectional-bfs/
+- https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree
 
 **Trie 树**
 
@@ -84,6 +85,90 @@ order: 1
 ![image-20230130224258109](https://i.imgur.com/rgWLb1m.png)
 
 ![image-20230130224435215](https://i.imgur.com/mEtE6xf.png)
+
+![image-20230201223932314](https://i.imgur.com/KxR1VJz.jpg)
+
+![image-20230201224051596](https://i.imgur.com/obAEmM5.jpg)
+
+二叉树遍历
+
+Pre-order/In-order/Post-order
+
+1. 前序（Pre-order）：根-左-右
+2. 中序（In-order）：左-根-右
+3. 后序（Post-order）：左-右-根
+
+![image-20230201224435162](https://i.imgur.com/EqyHrE8.png)
+
+![image-20230201225204893](https://i.imgur.com/yWrbImY.png)
+
+![image-20230201225308568](https://i.imgur.com/NhxPX94.jpg)
+
+![image-20230201225400104](https://i.imgur.com/WT6uuzU.png)
+
+![image-20230201231133095](https://i.imgur.com/85jsJdq.png)
+
+![image-20230201231420009](https://i.imgur.com/CnCPKKD.png)
+
+**AVL 树**
+
+![image-20230201231821241](https://i.imgur.com/vwWIN8r.png)
+
+![image-20230201231922509](https://i.imgur.com/Y3Bg1HX.png)
+
+![image-20230201232637217](https://i.imgur.com/3LjIKla.png)
+
+![image-20230201232647633](https://i.imgur.com/a2RVlOk.png)
+
+![image-20230201232744547](https://i.imgur.com/27NPYr6.png)
+
+![image-20230201232807917](https://i.imgur.com/K91imfx.png)
+
+![image-20230201232840154](https://i.imgur.com/2WErzNw.png)
+
+![image-20230201234524908](https://i.imgur.com/cAOVWaB.png)
+
+![image-20230201234614586](https://i.imgur.com/2rdUKlu.png)
+
+![image-20230201234916481](https://i.imgur.com/YkYHzxf.png)
+
+![image-20230201235001290](https://i.imgur.com/I27zRVM.png)
+
+![image-20230201235044560](https://i.imgur.com/5V316iB.png)
+
+![image-20230201235110150](https://i.imgur.com/4SMHHIG.png)
+
+![image-20230202000145461](https://i.imgur.com/yDKNBfR.png)
+
+![image-20230202000433437](https://i.imgur.com/g3O734A.png)
+
+右旋操作
+
+![image-20230202000517047](https://i.imgur.com/kXqFA8d.png)
+
+![image-20230202000553900](https://i.imgur.com/jOs2ZIk.png)
+
+![image-20230202000651411](https://i.imgur.com/3bkfMwQ.png)
+
+右左旋操作
+
+![image-20230202000729994](https://i.imgur.com/Ij2zh6j.png)
+
+近似平衡二叉树
+
+权衡和妥协
+
+**红黑树**
+
+![image-20230202001607040](https://i.imgur.com/M51azsj.png)
+
+![image-20230202002200912](https://i.imgur.com/lJxkPnI.png)
+
+![image-20230202002334580](https://i.imgur.com/VqXL00X.png)
+
+![image-20230202002421851](https://i.imgur.com/l0Fqtlf.png)
+
+![image-20230202002625444](https://i.imgur.com/EDYUiQt.jpg)
 
 ---
 
