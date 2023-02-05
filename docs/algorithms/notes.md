@@ -27,6 +27,22 @@ order: 1
 - https://zxi.mytechroad.com/blog/searching/8-puzzles-bidirectional-astar-vs-bidirectional-bfs/
 - https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree
 
+---
+
+**布隆过滤器**
+
+- https://www.cnblogs.com/cpselvis/p/6265825.html
+- https://blog.csdn.net/tianyaleixiaowu/article/details/74721877
+- https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
+- https://github.com/jhgg/pybloof
+- https://github.com/lovasoa/bloomfilter/blob/master/src/main/java/BloomFilter.java
+- https://github.com/Baqend/Orestes-Bloomfilter
+
+**Cache**
+
+- https://en.wikipedia.org/wiki/Cache_replacement_policies
+- https://www.sqlpassion.at/archive/2018/01/06/understanding-the-meltdown-exploit-in-my-own-simple-words/
+
 **Trie 树**
 
 - https://en.wikipedia.org/wiki/Trie
@@ -169,6 +185,24 @@ Pre-order/In-order/Post-order
 ![image-20230202002421851](https://i.imgur.com/l0Fqtlf.png)
 
 ![image-20230202002625444](https://i.imgur.com/EDYUiQt.jpg)
+
+![image-20230205204247690](https://i.imgur.com/f1xh7wq.jpg)
+
+![image-20230205204436586](https://i.imgur.com/4nTq5Y6.jpg)
+
+![image-20230205204826716](https://i.imgur.com/oubYVTN.png)
+
+![image-20230205205917892](https://i.imgur.com/E8vWjI3.png)
+
+![image-20230205211505088](https://i.imgur.com/6ejvK4r.png)
+
+![image-20230205211644528](https://i.imgur.com/59ZXXb2.png)
+
+![image-20230205212359085](https://i.imgur.com/TQnvDvZ.jpg)
+
+![image-20230205212451400](https://i.imgur.com/crNnnjc.jpg)
+
+![image-20230205220031605](https://i.imgur.com/8K1usYk.png)
 
 ---
 
