@@ -208,6 +208,18 @@ Pre-order/In-order/Post-order
 
 ![image-20230205220031605](https://i.imgur.com/8K1usYk.png)
 
+![image-20230213145136863](https://i.imgur.com/Avvb0mF.png)
+
+![image-20230213152856606](https://i.imgur.com/IokkK8n.png)
+
+![image-20230213152931159](https://i.imgur.com/bVr2l4f.png)
+
+![image-20230213153405832](https://i.imgur.com/mxlClUh.png)
+
+![image-20230213153526071](https://i.imgur.com/VB5wxxu.png)
+
+pri![image-20230213153628076](https://i.imgur.com/iqRAJhh.png)
+
 ---
 
 ### 283. 移动零
