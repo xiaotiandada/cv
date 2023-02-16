@@ -2,16 +2,13 @@ import { IApi } from 'dumi';
 import fs from 'fs';
 import path from 'path';
 
-const isDS_Store = (fileName: string) => {
-  return fileName !== '.DS_Store';
-};
+const isDSStore = (fileName: string) => !/\.DS_Store$/.test(fileName);
 
 // Get all files
-const getAllFiles = (path: string): string[] => {
+const getAllFiles = (dirPath: string): string[] => {
   try {
-    const data = fs.readdirSync(path).filter(isDS_Store);
-    // console.log(data, data.length)
-    return data;
+    const files = fs.readdirSync(dirPath).filter(isDSStore);
+    return files;
   } catch (err) {
     console.error(err);
     return [];
@@ -19,10 +16,9 @@ const getAllFiles = (path: string): string[] => {
 };
 
 // Read file
-const readFile = (path: string): string => {
+const readFile = async (filePath: string): Promise<string> => {
   try {
-    const data = fs.readFileSync(path, 'utf8');
-    // console.log(data)
+    const data = await fs.promises.readFile(filePath, 'utf8');
     return data;
   } catch (err) {
     console.error(err);
@@ -31,111 +27,82 @@ const readFile = (path: string): string => {
 };
 
 // Save To File
-const saveToFile = (path: string, content: string | NodeJS.ArrayBufferView): void => {
+const saveToFile = async (
+  filePath: string,
+  content: string | NodeJS.ArrayBufferView,
+): Promise<void> => {
   try {
-    if (fs.existsSync(path)) {
-      fs.unlinkSync(path);
+    if (fs.existsSync(filePath)) {
+      await fs.promises.unlink(filePath);
     }
 
-    fs.writeFileSync(path, content);
+    await fs.promises.writeFile(filePath, content);
   } catch (err) {
     console.error(err);
   }
 };
 
 /**
- * parse filename
+ * Parse file name and extension
  * @param filename
  * @returns
  */
-const parseFilename = (filename: string): string => {
-  if (!filename) {
-    return '';
-  }
-  return filename.substring(0, filename.lastIndexOf('.'));
+const parseFileName = (filename: string): { name: string; extension: string } => {
+  const match = filename.match(/(.*)\.(.*)/);
+
+  return {
+    name: match ? match[1] : '',
+    extension: match ? match[2] : '',
+  };
 };
 
 /**
- * parse file extension
- * @param filename
+ * Sort files by file name
+ * @param files
  * @returns
  */
-const parseFileExtension = (filename: string): string => {
-  if (!filename) {
-    return '';
-  }
-  return filename.substring(filename.lastIndexOf('.'));
-};
+const sortByFileName = (files: string[]): string[] =>
+  files.sort((a: string, b: string) => {
+    const { name: aName } = parseFileName(a);
+    const { name: bName } = parseFileName(b);
 
-// https://github.com/reduxjs/redux/blob/master/src/compose.ts
-export const compose = (...fn: Function[]) => {
-  if (fn.length === 0) {
-    return <T>(arg: T) => arg;
-  }
+    if (isNaN(Number(aName)) || isNaN(Number(bName))) {
+      return 0;
+    }
 
-  if (fn.length === 1) {
-    return fn[0];
-  }
-
-  return fn.reduce(
-    (a, b) =>
-      (...args: any) =>
-        a(b(...args)),
-  );
-};
+    return Number(aName) - Number(bName);
+  });
 
 // @TODO Released as a separate package
-export default (api: IApi) => {
+export default async (api: IApi) => {
   const basePath = path.join(__dirname, '../../source/leetcode');
   const targetPath = path.join(__dirname, '../../docs/algorithms');
 
-  // 获取文件目录
+  // Get all files
   const files = getAllFiles(basePath);
   // console.log('files', files)
 
-  // 获取文件内容
+  // get file contents
   let markdownContent = `---
 title: leetcode
 order: 1
 ---
 `;
 
-  /**
-   * Files Sort
-   * @param files
-   * @returns
-   */
-  const filesSort = (files: string[]): string[] =>
-    files.sort((a: string, b: string) => {
-      const afilename = parseFilename(a);
-      const bfilename = parseFilename(b);
+  // Sort files by file name
+  const filesList = sortByFileName(files);
 
-      const aName = afilename.split('.')[0];
-      const bName = bfilename.split('.')[0];
-
-      if (isNaN(Number(aName)) || isNaN(Number(bName))) {
-        return 0;
-      }
-
-      return Number(aName) - Number(bName);
-    });
-
-  const filesList = compose(filesSort)(files);
-
-  filesList.forEach((file: string) => {
-    const fileContent = readFile(path.join(basePath, file));
-    const extension = parseFileExtension(file);
-    const filename = parseFilename(file);
+  for (const file of filesList) {
+    const fileContent = await readFile(path.join(basePath, file));
+    const { name, extension } = parseFileName(file);
 
     markdownContent += `
-### ${filename}
-\`\`\`${extension.slice(1)}
+### ${name}
+\`\`\`${extension}
 ${fileContent}
 \`\`\`
 `;
-  });
+  }
 
-  // 保存为 Markdown
-  // console.log('markdownContent', markdownContent);
-  saveToFile(path.join(targetPath, 'leetcode.md'), markdownContent);
+  await saveToFile(path.join(targetPath, 'leetcode.md'), markdownContent);
 };
