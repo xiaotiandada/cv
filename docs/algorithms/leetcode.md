@@ -1,52 +1,41 @@
 ---
 title: leetcode
-order: 2
+order: 1
 ---
 
-### 20.有效的括号
+### 100.相同的树
 
 ```cpp
 /*
- * @lc app=leetcode.cn id=20 lang=cpp
+ * @lc app=leetcode.cn id=100 lang=cpp
  *
- * [20] 有效的括号
- * 方法一：栈
+ * [100] 相同的树
  */
 
 // @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    bool isValid(string s) {
-        int n = s.size();
-        // 有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 \text{False}False，省去后续的遍历判断过程。
-        if (n % 2 == 1) {
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (p == nullptr && q == nullptr) {
+            return true;
+        } else if (p == nullptr || q == nullptr) {
             return false;
+        } else if (p->val != q->val) {
+            return false;
+        } else {
+            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
         }
-
-        unordered_map<char, char> pairs = {
-            {')', '('},
-            {']', '['},
-            {'}', '{'}
-        };
-
-        stack<char> stk;
-
-        for (char ch: s) {
-            // 如果有右括号
-            if (pairs.count(ch)) {
-                // 栈空 或者顶部值不匹配
-                if (stk.empty() || stk.top() != pairs[ch]) {
-                    return false;
-                }
-                // 匹配出栈
-                stk.pop();
-            } else {
-                // 左括号入栈
-                stk.push(ch);
-            }
-        }
-        // 在遍历结束后，如果栈中没有左括号，说明我们将字符串 s 中的所有左括号闭合，返回 True，否则返回 False。
-        return stk.empty();
     }
 };
 // @lc code=end
@@ -54,152 +43,13 @@ public:
 
 ```
 
-### 22.括号生成
+### 101.对称二叉树
 
 ```cpp
 /*
- * @lc app=leetcode.cn id=22 lang=cpp
+ * @lc app=leetcode.cn id=101 lang=cpp
  *
- * [22] 括号生成
- * 方法一：暴力法
- */
-
-// @lc code=start
-class Solution {
-public:
-
-    bool valid(const string &str) {
-        int balance = 0;
-
-        for (char c: str) {
-            if (c == '(')  {
-                ++balance;
-            } else {
-                --balance;
-            }
-
-            if (balance < 0) {
-                return false;
-            }
-        }
-
-        return balance == 0;
-    }
-
-    void generate_all(string &current, int n, vector<string> &result) {
-        if (n == current.size()) {
-            if (valid(current)) {
-                result.push_back(current);
-            }
-            return;
-        }
-
-        current += '(';
-        generate_all(current, n, result);
-        current.pop_back();
-        current += ')';
-        generate_all(current, n, result);
-        current.pop_back();
-    }
-
-    vector<string> generateParenthesis(int n) {
-        vector<string> result;
-        string current;
-
-        generate_all(current, n * 2, result);
-
-        return result;
-    }
-};
-// @lc code=end
-
-
-```
-
-### 24.两两交换链表中的节点
-
-```cpp
-/*
- * @lc app=leetcode.cn id=24 lang=cpp
- *
- * [24] 两两交换链表中的节点
- * 方法一：递归
- */
-
-// @lc code=start
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* swapPairs(ListNode* head) {
-        if (head == nullptr || head->next == nullptr) {
-            return head;
-        }
-
-        ListNode* newHead = head->next;
-        head->next = swapPairs(newHead->next);
-        newHead->next = head;
-        return newHead;
-    }
-};
-// @lc code=end
-
-
-```
-
-### 70.爬楼梯
-
-```cpp
-/*
- * @lc app=leetcode.cn id=70 lang=cpp
- *
- * [70] 爬楼梯
- */
-
-// @lc code=start
-class Solution {
-public:
-    int climbStairs(int n) {
-
-        // 0 0 1
-        // 0 1 1
-        // 1 2 3
-        // 2 5 8
-
-        if (n <= 3) {
-            return n;
-        }
-
-        int p = 1, q = 2, r = 3;
-
-        for (int i = 4; i <= n; i++) {
-            p = q;
-            q = r;
-            r = p + q;
-        }
-        return r;
-    }
-};
-// @lc code=end
-
-
-```
-
-### 94.二叉树的中序遍历
-
-```cpp
-/*
- * @lc app=leetcode.cn id=94 lang=cpp
- *
- * [94] 二叉树的中序遍历
+ * [101] 对称二叉树
  */
 
 // @lc code=start
@@ -216,66 +66,74 @@ public:
  */
 class Solution {
 public:
-
-    void inorder(TreeNode *root, vector<int> &res) {
-        if (root == nullptr) {
-            return;
-        }
-
-        inorder(root->left, res);
-        res.push_back(root->val);
-        inorder(root->right, res);
-    }
-
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector <int> res;
-        inorder(root, res);
-        return res;
-    }
-};
-// @lc code=end
-
-
-```
-
-### 98.验证二叉搜索树
-
-```cpp
-/*
- * @lc app=leetcode.cn id=98 lang=cpp
- *
- * [98] 验证二叉搜索树
- * 方法一: 递归
- */
-
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    bool helper(TreeNode *root, long long lower, long long upper) {
-        if (root == nullptr) {
+    bool check(TreeNode *p, TreeNode *q) {
+        if (!p && !q) {
             return true;
         }
 
-        if (root->val <= lower || root->val >= upper) {
+        if (!p || !q) {
             return false;
         }
 
-        return helper(root->left, lower, root->val) && helper(root->right, root->val, upper);
+        return p->val == q->val && check(p->left, q->right) && check(p->right, q->left);
     }
+    bool isSymmetric(TreeNode* root) {
+        return check(root, root);
+    }
+};
+// @lc code=end
 
-    bool isValidBST(TreeNode* root) {
-        return helper(root, LONG_MIN, LONG_MAX);
+
+```
+
+### 104.二叉树的最大深度 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=104 lang=cpp
+ *
+ * [104] 二叉树的最大深度
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+
+        queue<TreeNode *> Q;
+        Q.push(root);
+        int ans = 0;
+        while (!Q.empty()) {
+            int sz = Q.size();
+            while (sz > 0) {
+                TreeNode* node = Q.front();
+                Q.pop();
+
+                if (node->left) {
+                    Q.push(node->left);
+                }
+                if (node->right) {
+                    Q.push(node->right);
+                }
+                sz -= 1;
+            }
+            ans += 1;
+        }
+        return ans;
     }
 };
 // @lc code=end
@@ -359,6 +217,153 @@ public:
         }
 
         return min_depth + 1;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 112.路径总和
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=112 lang=cpp
+ *
+ * [112] 路径总和
+ * 方法二：递归
+ * DFS
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (root == nullptr) {
+            return false;
+        }
+        if (root->left == nullptr && root->right == nullptr) {
+            return targetSum == root->val;
+        }
+        return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);
+    }
+};
+// @lc code=end
+
+
+```
+
+### 1143.最长公共子序列
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1143 lang=cpp
+ *
+ * [1143] 最长公共子序列
+ * https://leetcode.cn/problems/longest-common-subsequence/solution/zui-chang-gong-gong-zi-xu-lie-by-leetcod-y7u0/
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int m = text1.length();
+        int n = text2.length();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+
+        for (int i = 1; i <= m; i++) {
+            char c1 = text1.at(i - 1);
+            for (int j = 1; j <= n; j++) {
+                char c2 = text2.at(j - 1);
+                if (c1 == c2) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};
+// @lc code=end
+
+
+```
+
+### 121.买卖股票的最佳时机 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=121 lang=cpp
+ *
+ * [121] 买卖股票的最佳时机
+ * 方法二：一次遍历
+ */
+
+// maxProfit = 0
+// minPrice = 1e9
+
+// maxProfit = 0
+// minPrice = 1
+
+// maxProfit = 4
+// minPrice = 1
+
+// maxProfit = 5
+// minPrice = 1
+
+// @lc code=start
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int inf = 1e9;
+        int minPrice = inf;
+        int maxProfit = 0;
+        for (int price : prices) {
+            maxProfit = max(maxProfit, price - minPrice);
+            minPrice = min(price, minPrice);
+        }
+        return maxProfit;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 121.买卖股票的最佳时机
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=121 lang=cpp
+ *
+ * [121] 买卖股票的最佳时机
+ * 方法一：暴力法
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                ans = max(ans, prices[j] - prices[i]);
+            }
+        }
+        return ans;
     }
 };
 // @lc code=end
@@ -452,6 +457,111 @@ public:
 
 ```
 
+### 146.lru-缓存
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=146 lang=cpp
+ *
+ * [146] LRU 缓存
+ */
+
+// @lc code=start
+struct DLinkedNode {
+    int key, value;
+    DLinkedNode *prev;
+    DLinkedNode *next;
+    DLinkedNode(): key(0), value(0), prev(nullptr), next(nullptr) {}
+    DLinkedNode(int _key, int _value): key(_key), value(_value), prev(nullptr), next(nullptr) {}
+};
+
+class LRUCache {
+private:
+    unordered_map<int, DLinkedNode*> cache;
+    DLinkedNode *head;
+    DLinkedNode *tail;
+    int size;
+    int capacity;
+public:
+    LRUCache(int _capacity): capacity(_capacity), size(0) {
+        // 使用伪头部和伪尾部节点
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    int get(int key) {
+        if (!cache.count(key)) {
+            return -1;
+        }
+        // 如果 key 存在，先通过哈希表定位，再移到头部
+        DLinkedNode* node = cache[key];
+        moveToHead(node);
+        return node->value;
+    }
+
+    void put(int key, int value) {
+        if (!cache.count(key)) {
+           // 如果 key 不存在，创建一个新的节点
+            DLinkedNode* node = new DLinkedNode(key, value);
+            // 添加进哈希表
+            cache[key] = node;
+            // 添加至双向链表的头部
+            addToHead(node);
+            ++size;
+            if (size > capacity) {
+                // 如果超出容量，删除双向链表的尾部节点
+                DLinkedNode* removed = removeTail();
+                // 删除哈希表中对应的项
+                cache.erase(removed->key);
+                // 防止内存泄漏
+                delete removed;
+                --size;
+            }
+        } else {
+            // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+            DLinkedNode* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        }
+    }
+
+    void addToHead(DLinkedNode *node) {
+        node->prev = head;
+        node->next = head->next;
+        head->next->prev = node;
+        head->next = node;
+    }
+
+    void removeNode(DLinkedNode *node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+
+    void moveToHead(DLinkedNode *node) {
+        removeNode(node);
+        addToHead(node);
+    }
+
+    DLinkedNode *removeTail() {
+        DLinkedNode *node = tail->prev;
+        removeNode(node);
+        return node;
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+// @lc code=end
+
+
+```
+
 ### 155.最小栈
 
 ```cpp
@@ -497,6 +607,249 @@ public:
  * int param_3 = obj->top();
  * int param_4 = obj->getMin();
  */
+// @lc code=end
+
+
+```
+
+### 17.电话号码的字母组合
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=17 lang=cpp
+ *
+ * [17] 电话号码的字母组合
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> combinations;
+        if (digits.empty()) {
+            return combinations;
+        }
+
+        unordered_map<char, string> phoneMap{
+            {'2', "abc"},
+            {'3', "def"},
+            {'4', "ghi"},
+            {'5', "jkl"},
+            {'6', "mno"},
+            {'7', "pqrs"},
+            {'8', "tuv"},
+            {'9', "wxyz"}
+        };
+
+        string combination;
+        backtrack(combinations, phoneMap, digits, 0, combination);
+        return combinations;
+    }
+
+    void backtrack(
+        vector<string>& combinations,
+        const unordered_map<char, string>& phoneMap,
+        const string& digits,
+        int index,
+        string& combination) {
+            if (index == digits.length()) {
+                combinations.push_back(combination);
+            } else {
+                char digit = digits[index];
+                const string& letters = phoneMap.at(digit);
+                for (const char& letter : letters) {
+                    combination.push_back(letter);
+                    backtrack(combinations, phoneMap, digits, index + 1, combination);
+                    combination.pop_back();
+                }
+            }
+        }
+};
+// @lc code=end
+
+
+```
+
+### 191.位-1-的个数 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=191 lang=cpp
+ *
+ * [191] 位1的个数
+ * 方法二：位运算优化
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int ret = 0;
+        while (n) {
+            n &= n - 1;
+            ret++;
+        }
+        return ret;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 191.位-1-的个数
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=191 lang=cpp
+ *
+ * [191] 位1的个数
+ * 方法一：循环检查二进制位
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int ret = 0;
+        for (int i = 0; i < 32; i++) {
+            if (n & (1 << i)) {
+                ret++;
+            }
+        }
+        return ret;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 198.打家劫舍 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=198 lang=cpp
+ *
+ * [198] 打家劫舍
+ * https://leetcode.cn/problems/house-robber/solution/da-jia-jie-she-by-leetcode-solution/
+ * 动态规划 + 滚动数组
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+
+        int size = nums.size();
+        if (size == 1) {
+            return nums[0];
+        }
+
+        int first = nums[0];
+        int second = max(nums[0], nums[1]);
+
+        for (int i = 2; i < size; i++) {
+            int temp = second;
+            second = max(first + nums[i], second);
+            first = temp;
+        }
+        return second;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 198.打家劫舍
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=198 lang=cpp
+ *
+ * [198] 打家劫舍
+ * https://leetcode.cn/problems/house-robber/solution/da-jia-jie-she-by-leetcode-solution/
+ * 动态规划
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+
+        int size = nums.size();
+        if (size == 1) {
+            return nums[0];
+        }
+
+        vector<int> dp = vector<int>(size, 0);
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+
+        for (int i = 2; i < size; i++) {
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[size - 1];
+    }
+};
+// @lc code=end
+
+
+```
+
+### 20.有效的括号
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=20 lang=cpp
+ *
+ * [20] 有效的括号
+ * 方法一：栈
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isValid(string s) {
+        int n = s.size();
+        // 有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 \text{False}False，省去后续的遍历判断过程。
+        if (n % 2 == 1) {
+            return false;
+        }
+
+        unordered_map<char, char> pairs = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+
+        stack<char> stk;
+
+        for (char ch: s) {
+            // 如果有右括号
+            if (pairs.count(ch)) {
+                // 栈空 或者顶部值不匹配
+                if (stk.empty() || stk.top() != pairs[ch]) {
+                    return false;
+                }
+                // 匹配出栈
+                stk.pop();
+            } else {
+                // 左括号入栈
+                stk.push(ch);
+            }
+        }
+        // 在遍历结束后，如果栈中没有左括号，说明我们将字符串 s 中的所有左括号闭合，返回 True，否则返回 False。
+        return stk.empty();
+    }
+};
 // @lc code=end
 
 
@@ -582,6 +935,133 @@ public:
 
 ```
 
+### 208.实现-trie-前缀树
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=208 lang=cpp
+ *
+ * [208] 实现 Trie (前缀树)
+ */
+
+// @lc code=start
+class Trie {
+private:
+    vector<Trie*> children;
+    bool isEnd;
+
+    Trie* searchPrefix(string prefix) {
+        Trie* node = this;
+        for (char ch: prefix) {
+            ch -= 'a';
+            if (node->children[ch] == nullptr) {
+                return nullptr;
+            }
+            node = node->children[ch];
+        }
+        return node;
+    }
+public:
+    Trie(): children(26), isEnd(false) {
+
+    }
+
+    void insert(string word) {
+        Trie* node =this;
+        for (char ch: word) {
+            ch -= 'a';
+            if (node->children[ch] == nullptr) {
+                node->children[ch] = new Trie();
+            }
+            node = node->children[ch];
+        }
+        node->isEnd = true;
+    }
+
+    bool search(string word) {
+        Trie* node = this->searchPrefix(word);
+        return node != nullptr && node->isEnd;
+    }
+
+    bool startsWith(string prefix) {
+        return this->searchPrefix(prefix) != nullptr;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
+// @lc code=end
+
+
+```
+
+### 22.括号生成
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=22 lang=cpp
+ *
+ * [22] 括号生成
+ * 方法一：暴力法
+ */
+
+// @lc code=start
+class Solution {
+public:
+
+    bool valid(const string &str) {
+        int balance = 0;
+
+        for (char c: str) {
+            if (c == '(')  {
+                ++balance;
+            } else {
+                --balance;
+            }
+
+            if (balance < 0) {
+                return false;
+            }
+        }
+
+        return balance == 0;
+    }
+
+    void generate_all(string &current, int n, vector<string> &result) {
+        if (n == current.size()) {
+            if (valid(current)) {
+                result.push_back(current);
+            }
+            return;
+        }
+
+        current += '(';
+        generate_all(current, n, result);
+        current.pop_back();
+        current += ')';
+        generate_all(current, n, result);
+        current.pop_back();
+    }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string current;
+
+        generate_all(current, n * 2, result);
+
+        return result;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 226.翻转二叉树
 
 ```cpp
@@ -618,6 +1098,45 @@ public:
         root->right = left;
 
         return root;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 24.两两交换链表中的节点
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=24 lang=cpp
+ *
+ * [24] 两两交换链表中的节点
+ * 方法一：递归
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode* newHead = head->next;
+        head->next = swapPairs(newHead->next);
+        newHead->next = head;
+        return newHead;
     }
 };
 // @lc code=end
@@ -676,6 +1195,97 @@ public:
         }
 
         return true;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 322.零钱兑换
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=322 lang=cpp
+ *
+ * [322] 零钱兑换
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int Max = amount + 1;
+        vector<int> dp(amount + 1, Max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; ++i) {
+            for (int j = 0; j < (int)coins.size(); ++j) {
+                if (coins[j] <= i) {
+                    dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
+// @lc code=end
+
+
+```
+
+### 367.有效的完全平方数
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=367 lang=cpp
+ *
+ * [367] 有效的完全平方数
+ */
+
+// 16
+// left = 0
+// right = 16
+// mid = 8
+// square = 64
+// right = 7
+
+// left = 0
+// right = 7
+// mid = 3 int
+// square = 9
+// right = 7
+// left = 4
+
+// left = 4
+// right = 7
+// mid = 5
+// square = 25
+// right = 6
+
+// left = 4
+// right = 6
+// mid = 4
+// square = 16
+// true
+
+// @lc code=start
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        int left = 0;
+        int right = num;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            long square = (long) mid * mid;
+            if (square < num) {
+                left = mid + 1;
+            } else if (square > num) {
+                right = mid - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 };
 // @lc code=end
@@ -781,6 +1391,514 @@ int main()
 
 ```
 
+### 45.跳跃游戏-ii
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=45 lang=cpp
+ *
+ * [45] 跳跃游戏 II
+ * https://leetcode.cn/problems/jump-game-ii/solution/45-by-ikaruga/
+ */
+
+// [2,3,1,1,4]
+// i = 0
+// maxPos = 3
+// end = 3
+// ans = 1
+
+// i = 1
+// maxPos = 4
+// end = 3
+// ans = 1
+
+// i = 2
+// mmaxPos = 4
+// end = 3
+// ans = 1
+
+// i = 3
+// maxPos = 4
+// end = 4
+// ans = 2
+
+// i = 4
+// maxPos = 8
+// end = 4
+// ans = 2
+
+// @lc code=start
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int ans = 0;
+        int end = 0;
+        int maxPos = 0;
+        for (int i = 0; i < nums.size() - 1; i++) {
+            maxPos = max(maxPos, i + nums[i]);
+            if (i == end) {
+                end = maxPos;
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 455.分发饼干
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=455 lang=cpp
+ *
+ * [455] 分发饼干
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        int m = g.size();
+        int n = s.size();
+        int count = 0;
+
+        for (int i = 0, j = 0; i < m && j < n; i++, j++) {
+            while (j < n && g[i] > s[j]) {
+                j++;
+            }
+            if (j < n) {
+                count++;
+            }
+        }
+        return count;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 50.pow-x-n 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=50 lang=cpp
+ *
+ * [50] Pow(x, n)
+ *
+ */
+
+// @lc code=start
+class Solution {
+public:
+    double quickMul(double x, long long N) {
+        if (N == 0) {
+            return 1.0;
+        }
+
+        double y = quickMul(x, N / 2);
+        return N % 2 == 0 ? y * y : y * y * x;
+
+    }
+
+    double myPow(double x, int n) {
+        long long N = n;
+        return N >= 0 ? quickMul(x, N) : 1.0 / quickMul(x, -N);
+    }
+};
+// @lc code=end
+
+
+```
+
+### 50.pow-x-n
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=50 lang=cpp
+ *
+ * [50] Pow(x, n)
+ * 暴力
+ */
+
+// @lc code=start
+class Solution {
+public:
+    double myPow(double x, int n) {
+
+        if (n < 0) {
+            return 1.0 / myPow(x, -n);
+        }
+
+        double result = 1;
+        for (int i = 0; i < n; i++) {
+            result *= x;
+        }
+        return result;
+    }
+};
+// @lc code=end
+```
+
+### 509.斐波那契数 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=509 lang=cpp
+ *
+ * [509] 斐波那契数
+ * https://en.wikipedia.org/wiki/Dynamic_programming
+ */
+
+// @lc code=start
+class Solution {
+public:
+    map<int, int> m = {
+        {0, 0},
+        {1, 1}
+    };
+    int fib(int n) {
+        if (m.count(n) == 0) {
+            m[n] = fib(n - 1) + fib(n - 2);
+        }
+        return m[n];
+    }
+};
+// @lc code=end
+
+
+// var m := map(0 → 0, 1 → 1)
+// function fib(n)
+//     if key n is not in map m
+//         m[n] := fib(n − 1) + fib(n − 2)
+//     return m[n]
+```
+
+### 509.斐波那契数 3
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=509 lang=cpp
+ *
+ * [509] 斐波那契数
+ * https://leetcode.cn/problems/fibonacci-number/solution/fei-bo-na-qi-shu-by-leetcode-solution-o4ze/
+ * 方法一：动态规划
+ */
+
+// 1，1，2，3，5，8，13，21，34，55
+// 1 1
+
+// 4
+// i = 2
+// p = 0
+// q = 1
+// r = p + q = 1
+
+// i = 3
+// p = 1
+// q = 1
+// r = 2
+
+// i = 4
+// p = 1
+// q = 2
+// r = 3
+
+// i = 5
+// p = 2
+// q = 3
+// r = 5
+
+// i = 6
+// p = 3
+// q = 5
+// r = 8
+
+// @lc code=start
+class Solution {
+public:
+    int fib(int n) {
+        if (n < 2) {
+            return n;
+        }
+
+        int p = 0;
+        int q = 0;
+        int r = 1;
+
+        for (int i = 2; i <= n; ++i) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+};
+// @lc code=end
+```
+
+### 509.斐波那契数 4
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=509 lang=cpp
+ *
+ * [509] 斐波那契数
+ * https://en.wikipedia.org/wiki/Dynamic_programming
+ */
+
+// 1，1，2，3，5，8，13，21，34，55
+// 1 1
+
+// 4
+// i = 2
+// p = 0
+// q = 1
+// r = p + q = 1
+
+// i = 3
+// p = 1
+// q = 1
+// r = 2
+
+// i = 4
+// p = 1
+// q = 2
+// r = 3
+
+// i = 5
+// p = 2
+// q = 3
+// r = 5
+
+// i = 6
+// p = 3
+// q = 5
+// r = 8
+
+// @lc code=start
+class Solution {
+public:
+    int fib(int n) {
+        if (n < 2) {
+            return n;
+        } else {
+            int previousFib = 0;
+            int currentFib = 1;
+            for (int i = 0; i < n - 1; ++i) {
+                int newFib = previousFib + currentFib;
+                previousFib = currentFib;
+                currentFib = newFib;
+            }
+            return currentFib;
+        }
+    }
+};
+// @lc code=end
+
+
+// function fib(n)
+//     if n = 0
+//         return 0
+//     else
+//         var previousFib := 0, currentFib := 1
+//         repeat n − 1 times // loop is skipped if n = 1
+//             var newFib := previousFib + currentFib
+//             previousFib := currentFib
+//             currentFib  := newFib
+//         return currentFib
+```
+
+### 509.斐波那契数
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=509 lang=cpp
+ *
+ * [509] 斐波那契数
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        return fib(n - 1) + fib(n - 2);
+    }
+};
+// @lc code=end
+
+
+```
+
+### 51.n-皇后
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=51 lang=cpp
+ *
+ * [51] N 皇后
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        auto solutions = vector<vector<string>>();
+        auto queens = vector<int>(n, -1);
+        auto columns = unordered_set<int>();
+        auto diagonals1 = unordered_set<int>();
+        auto diagonals2 = unordered_set<int>();
+        backtrack(solution, columns, diagonals1, diagonals2);
+        return solutions;
+    }
+
+    void backtrack(
+        vector<vector<string>> &solutions,
+        vector<int> &queens,
+        int n,
+        int row,
+        unordered_set<int> &columns,
+        unordered_set<int> &diagonals1,
+        unordered_set<int> &diagonals2,
+    ) {
+        for (int i = 0; i < n; n++) {
+            // ...
+            //    https://leetcode.cn/problems/n-queens/solution/nhuang-hou-by-leetcode-solution/
+        }
+    }
+
+    vector<string> generatedBoard(vector<vector<int> &queens, int n) {
+        auto board = vector<string>();
+        for (int i = 0; i < n; i++) {
+            string row = string(n, '.');
+            row[queens[i]] = 'Q';
+            board.push_back(row);
+        }
+        return board;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 53.最大子数组和
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=53 lang=cpp
+ *
+ * [53] 最大子数组和
+ * https://leetcode.cn/problems/maximum-subarray/solution/zui-da-zi-xu-he-by-leetcode-solution/#comment
+ *
+ */
+
+// [-2,1,-3,4,-1,2,1,-5,4]
+// pre = 0, -2, 1, -2, 4, 3, 5, 6, 1, 5
+// maxAns = -2, -2, 1, 1, 4, 4, 5, 6, 6, 6
+
+// @lc code=start
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int pre = 0;
+        int maxAns = nums[0];
+
+        for (const auto &x: nums) {
+            pre = max(pre + x, x);
+            // printf("%d ", pre);
+            maxAns = max(maxAns, pre);
+            // printf("%d ", maxAns);
+        }
+        return maxAns;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 55.跳跃游戏 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=55 lang=cpp
+ *
+ * [55] 跳跃游戏
+ * https://leetcode.cn/problems/jump-game/solution/tiao-yue-you-xi-by-leetcode-solution/
+ * 方法一：贪心
+ */
+
+// [2,3,1,1,4]
+// [3,2,1,0,4]
+
+// @lc code=start
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        // 依次遍历数组中的每一个位置，并实时维护 最远可以到达的位置
+        int rightmost = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i <= rightmost) {
+                rightmost = max(rightmost, i + nums[i]);
+                // 如果 最远可以到达的位置 大于等于数组中的最后一个位置，那就说明最后一个位置可达，我们就可以直接返回 True 作为答案
+                if (rightmost >= n - 1) {
+                    return true;
+                }
+            }
+        }
+        // 反之，如果在遍历结束后，最后一个位置仍然不可达，我们就返回 False 作为答案。
+        return false;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 55.跳跃游戏
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=55 lang=cpp
+ *
+ * [55] 跳跃游戏
+ * https://leetcode.cn/problems/jump-game/solution/55-by-ikaruga/
+ */
+
+// [2,3,1,1,4]
+// [3,2,1,0,4]
+
+// @lc code=start
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int k = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > k) {
+                return false;
+            }
+            k = max(k, i + nums[i]);
+        }
+        return true;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 589.n-叉树的前序遍历
 
 ```cpp
@@ -827,6 +1945,118 @@ public:
         vector<int> res;
         helper(root, res);
         return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 62.不同路径
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=62 lang=cpp
+ *
+ * [62] 不同路径
+ * https://leetcode.cn/problems/unique-paths/solution/bu-tong-lu-jing-by-leetcode-solution-hzjf/
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> f(m, vector<int>(n));
+
+        for (int i = 0; i < m; ++i) {
+            f[i][0] = 1;
+        }
+
+        for (int j = 0; j < n; ++j) {
+            f[0][j] = 1;
+        }
+
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                f[i][j] = f[i - 1][j] + f[i][j - 1];
+            }
+        }
+        return f[m - 1][n - 1];
+    }
+};
+// @lc code=end
+
+
+```
+
+### 69.x-的平方根
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=69 lang=cpp
+ *
+ * [69] x 的平方根
+ * 方法二：二分查找
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int mySqrt(int x) {
+        int l = 0;
+        int r = x;
+        int ans = -1;
+
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if ((long long)mid * mid <= x) {
+                ans = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+
+};
+// @lc code=end
+
+
+```
+
+### 70.爬楼梯
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=70 lang=cpp
+ *
+ * [70] 爬楼梯
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int climbStairs(int n) {
+
+        // 0 0 1
+        // 0 1 1
+        // 1 2 3
+        // 2 5 8
+
+        if (n <= 3) {
+            return n;
+        }
+
+        int p = 1, q = 2, r = 3;
+
+        for (int i = 4; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
     }
 };
 // @lc code=end
@@ -963,6 +2193,481 @@ public:
  * int param_2 = obj->get(key);
  * obj->remove(key);
  */
+// @lc code=end
+
+
+```
+
+### 78.子集
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=78 lang=cpp
+ *
+ * [78] 子集
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> t;
+    vector<vector<int>> ans;
+
+    void dfs(int cur, vector<int> &nums) {
+        if (cur == nums.size()) {
+            ans.push_back(t);
+            return;
+        }
+        t.push_back(nums[cur]);
+        dfs(cur + 1, nums);
+        t.pop_back();
+        dfs(cur + 1, nums);
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        dfs(0, nums);
+        return ans;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 860.柠檬水找零
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=860 lang=cpp
+ *
+ * [860] 柠檬水找零
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        int five = 0;
+        int ten = 0;
+
+        for (auto& bill : bills) {
+            if (bill == 5) {
+                five++;
+            } else if (bill == 10) {
+                if (five == 0) {
+                    return false;
+                }
+                five--;
+                ten++;
+            } else {
+                if (five > 0 && ten > 0) {
+                    five--;
+                    ten--;
+                } else if (five >= 3) {
+                    five -=3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 912.排序数组 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * selectionSort
+ * 选择排序
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = 0; i < n; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (nums[j] < nums[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            int temp = nums[i];
+            nums[i] = nums[minIndex];
+            nums[minIndex] = temp;
+        }
+
+        return nums;
+    }
+};
+// @lc code=end
+
+```
+
+### 912.排序数组 3
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * insertionSort
+ * 插入排序
+ * [5,2,3,1]
+ *
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = 1; i < n; i++) {
+            int key = nums[i];
+            int j = i - 1;
+            while ( j >= 0 && nums[j] > key) {
+                nums[j + 1] = nums[j];
+                j--;
+            }
+            nums[j + 1] = key;
+        }
+
+        return nums;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 912.排序数组 4
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * quickSort
+ * 快速排序
+ *
+ *
+ * 快速排序是一种分治的算法，其原理是选择一个关键值（又称轴点或者枢轴）作为基准，然后将数组分成两部分：小于等于这个关键值的数和大于这个关键值的数。最终，递归地对这两部分分别进行排序，最终完成整个数组的排序。
+ * 这个代码实现了快速排序的关键步骤。首先，需要判断递归的终止条件：如果 low >= high，说明已经排序完成。然后，选择最后一个数作为关键值。从 low 到 high - 1 的数依次比较，如果比关键值小，则将其与前面的数交换位置。最后，将关键值与比它小的数的最后一个位置交换，得到了关键值的正确位置。最后，递归地调用 quickSort 函数对比关键值小的数和比关键值大的数进行排序。
+ * 代码的最后，输出排序后的数组，得到排序结果：`1 2 3 4 5 6`。
+ *
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> quickSort(vector<int>& nums, int low, int high) {
+        if (low < high) {
+            int pivot = nums[high];
+            int i = low - 1;
+
+            for (int j = low; j <= high - 1; j++) {
+                if (nums[j] < pivot) {
+                    i++;
+                    swap(nums[i], nums[j]);
+                }
+            }
+
+            swap(nums[i + 1], nums[high]);
+            int p = i + 1;
+
+            quickSort(nums, low, p - 1);
+            quickSort(nums, p + 1, high);
+        }
+
+
+        return nums;
+    }
+
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+
+        return quickSort(nums, 0, n - 1);
+    }
+};
+// @lc code=end
+
+
+```
+
+### 912.排序数组 5
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * mergeSort
+ * 归并排序
+ *
+ *
+ */
+
+// @lc code=start
+class Solution {
+public:
+
+    void merge(vector<int>& nums, int low, int mid, int high) {
+        int i, j, k;
+        int n1 = mid - low + 1;
+        int n2 = high - mid;
+        vector<int> L(n1), R(n2);
+
+        for (i = 0; i < n1; i++) {
+            L[i] = nums[low + i];
+        }
+
+        for (j = 0; j < n2; j++) {
+            R[j] = nums[mid + 1 + j];
+        }
+
+        i = 0, j = 0, k = low;
+
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                nums[k] = L[i];
+                i++;
+            } else {
+                nums[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            nums[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (i < n2) {
+            nums[k] = R[j];
+            j++;
+            k++;
+        }
+
+    }
+
+    void mergeSort(vector<int>& nums, int low, int high) {
+        if (low < high) {
+            int mid = low + (high - low) / 2;
+
+            mergeSort(nums, low, mid);
+            mergeSort(nums, mid + 1, high);
+            merge(nums, low, mid, high);
+        }
+    }
+
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+
+        mergeSort(nums, 0, n - 1);
+
+        return nums;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 912.排序数组 6
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * 堆排序
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+
+        make_heap(nums.begin(), nums.end());
+        sort_heap(nums.begin(), nums.end());
+
+        return nums;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 912.排序数组 7
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * 堆排序
+ */
+
+// @lc code=start
+class Solution {
+public:
+    void heapSort(vector<int>& nums, int len) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        for (int i = 0; i < len; i++) {
+            pq.push(nums[i]);
+        }
+
+        for (int i = 0; i < len; i++) {
+            nums[i] = pq.top();
+            pq.pop();
+        }
+    }
+
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+
+        heapSort(nums, n);
+
+        return nums;
+    }
+};
+// @lc code=end
+```
+
+### 912.排序数组
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=912 lang=cpp
+ *
+ * [912] 排序数组
+ * bubbleSort
+ * 冒泡排序
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n - i -1; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = temp;
+                }
+            }
+        }
+
+        return nums;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 94.二叉树的中序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=94 lang=cpp
+ *
+ * [94] 二叉树的中序遍历
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+
+        inorder(root->left, res);
+        res.push_back(root->val);
+        inorder(root->right, res);
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector <int> res;
+        inorder(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 98.验证二叉搜索树
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=98 lang=cpp
+ *
+ * [98] 验证二叉搜索树
+ * 方法一: 递归
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode *root, long long lower, long long upper) {
+        if (root == nullptr) {
+            return true;
+        }
+
+        if (root->val <= lower || root->val >= upper) {
+            return false;
+        }
+
+        return helper(root->left, lower, root->val) && helper(root->right, root->val, upper);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_MIN, LONG_MAX);
+    }
+};
 // @lc code=end
 
 
