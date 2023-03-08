@@ -1,4 +1,4 @@
-# 二分查找
+# binary search
 def binary_search(lst, item):
     low = 0
     high = len(lst)-1
