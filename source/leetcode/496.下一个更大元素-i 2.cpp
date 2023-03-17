@@ -2,7 +2,7 @@
  * @lc app=leetcode.cn id=496 lang=cpp
  *
  * [496] 下一个更大元素 I
- * 暴力解法
+ * 单调栈 + 哈希表
  */
 
 // @lc code=start
