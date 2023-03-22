@@ -3,6 +3,12 @@ title: leetcode
 order: 1
 ---
 
+###
+
+```vscode
+
+```
+
 ### 100.相同的树
 
 ```cpp
@@ -84,6 +90,50 @@ public:
 // @lc code=end
 
 
+```
+
+### 1021. 删除最外层的括号
+
+```cpp
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string res;
+        stack<char> st;
+
+        for (auto c : s) {
+            if (c == ')') {
+                st.pop();
+            }
+
+            if (!st.empty()) {
+                res.push_back(c);
+            }
+
+            if (c == '(') {
+                st.emplace(c);
+            }
+        }
+
+        return res;
+    }
+};
+
+
+// (()())(())
+//
+// (
+
+// (
+// ((
+
+// ()
+// (
+// ...
+// ()()
+// (
+// ()()(
+// ...
 ```
 
 ### 104.二叉树的最大深度 2
@@ -174,6 +224,25 @@ public:
 // @lc code=end
 
 
+```
+
+### 1047. 删除字符串中的所有相邻重复项
+
+```cpp
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        string ret;
+        for (char ch : s) {
+            if (!ret.empty() && ret.back() == ch) {
+                ret.pop_back();
+            } else {
+                ret.push_back(ch);
+            }
+        }
+        return ret;
+    }
+};
 ```
 
 ### 111.二叉树的最小深度
@@ -562,6 +631,96 @@ public:
 
 ```
 
+### 1475.商品折扣后的最终价格 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1475 lang=cpp
+ *
+ * [1475] 商品折扣后的最终价格
+ * 单调栈
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> ans(n);
+        stack<int> st;
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && st.top() > prices[i]) {
+                st.pop();
+            }
+
+            ans[i] = st.empty() ? prices[i] : prices[i] - st.top();
+            st.emplace(prices[i]);
+        }
+
+        return ans;
+    }
+};
+// @lc code=end
+```
+
+### 1475.商品折扣后的最终价格
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1475 lang=cpp
+ *
+ * [1475] 商品折扣后的最终价格
+ * 暴力解法
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> ans;
+
+        for (int i = 0; i < n; i++) {
+            int discount = 0;
+            for (int j = i + 1; j < n; j++) {
+                if (prices[j] <= prices[i]) {
+                    discount = prices[j];
+                    break;
+                }
+            }
+
+            ans.emplace_back(prices[i] - discount);
+        }
+
+        return ans;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 1544. 整理字符串
+
+```cpp
+class Solution {
+public:
+    string makeGood(string s) {
+        string ret;
+        for (char ch : s) {
+            // 字符 ch 与字符串 ret 的最后一个字符互为同一个字母的大小写, 弹出 ret 的最后一个字符
+            if (!ret.empty() && tolower(ret.back()) == tolower(ch) && ret.back() != ch) {
+                ret.pop_back();
+            } else {
+                ret.push_back(ch);
+            }
+        }
+        return ret;
+    }
+};
+```
+
 ### 155.最小栈
 
 ```cpp
@@ -607,6 +766,71 @@ public:
  * int param_3 = obj->top();
  * int param_4 = obj->getMin();
  */
+// @lc code=end
+
+
+```
+
+### 1598.文件夹操作日志搜集器
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1598 lang=cpp
+ *
+ * [1598] 文件夹操作日志搜集器
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int minOperations(vector<string>& logs) {
+        int depth = 0;
+        for (auto& log : logs) {
+            if (log == "./") {
+                continue;
+            } else if (log == "../") {
+                // 如果已经在主文件夹下，则 继续停留在当前文件夹 。
+                if (depth > 0) {
+                    depth--;
+                }
+            } else {
+                depth++;
+            }
+        }
+        return depth;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 1614.括号的最大嵌套深度
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1614 lang=cpp
+ *
+ * [1614] 括号的最大嵌套深度
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int maxDepth(string s) {
+        int ans = 0;
+        int size = 0;
+        for (char ch : s) {
+            if (ch == '(') {
+                ++size;
+                ans = max(ans, size);
+            } else if (ch == ')') {
+                --size;
+            }
+        }
+        return ans;
+    }
+};
 // @lc code=end
 
 
@@ -664,6 +888,46 @@ public:
                 }
             }
         }
+};
+// @lc code=end
+
+
+```
+
+### 1700.无法吃午餐的学生数量
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=1700 lang=cpp
+ *
+ * [1700] 无法吃午餐的学生数量
+ */
+
+// @lc code=start
+// tudents = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]
+// 4 2
+// 3 2
+// 3 1
+// 3 0
+// 3 0
+// return
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        int s1 = accumulate(students.begin(), students.end(), 0);
+        int s0 = students.size() - s1;
+
+        for (int i = 0; i < sandwiches.size(); i++) {
+            if (sandwiches[i] == 0 && s0 > 0) {
+                s0--;
+            } else if (sandwiches[i] == 1 && s1 > 0) {
+                s1--;
+            } else {
+                break;
+            }
+        }
+        return s0 + s1;
+    }
 };
 // @lc code=end
 
@@ -1062,6 +1326,65 @@ public:
 
 ```
 
+### 225.用队列实现栈
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=225 lang=cpp
+ *
+ * [225] 用队列实现栈
+ */
+
+// @lc code=start
+class MyStack {
+public:
+    queue<int> queue1;
+    queue<int> queue2;
+    MyStack() {
+
+    }
+
+    void push(int x) {
+        // 入栈操作时，首先将元素入队到 queue2
+        queue2.push(x);
+        while (!queue1.empty()) {
+            // 然后将 queue1 的全部元素依次出队并入队到 queue2
+            queue2.push(queue1.front());
+            queue1.pop();
+        }
+        // 此时 queue2 的前端的元素即为新入栈的元素，再将 queue 1 和 queue2 互换，
+        // 则 queue 1​ 的元素即为栈内的元素，queue1 的前端和后端分别对应栈顶和栈底。
+        swap(queue1, queue2);
+    }
+
+    int pop() {
+        int r = queue1.front();
+        queue1.pop();
+        return r;
+    }
+
+    int top() {
+        return queue1.front();
+    }
+
+    bool empty() {
+        return queue1.empty();
+    }
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
+// @lc code=end
+
+
+```
+
 ### 226.翻转二叉树
 
 ```cpp
@@ -1100,6 +1423,71 @@ public:
         return root;
     }
 };
+// @lc code=end
+
+
+```
+
+### 232.用栈实现队列
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=232 lang=cpp
+ *
+ * [232] 用栈实现队列
+ */
+
+// @lc code=start
+class MyQueue {
+public:
+    stack<int> inStack, outStack;
+
+    // 每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，
+    // 这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
+    void in2out() {
+        while (!inStack.empty()) {
+            outStack.push(inStack.top());
+            inStack.pop();
+        }
+    }
+
+    MyQueue() {
+
+    }
+
+    void push(int x) {
+        inStack.push(x);
+    }
+
+    int pop() {
+        if (outStack.empty()) {
+            in2out();
+        }
+        int x = outStack.top();
+        outStack.pop();
+        return x;
+    }
+
+    int peek() {
+        if (outStack.empty()) {
+            in2out();
+        }
+        return outStack.top();
+    }
+
+    bool empty() {
+        return inStack.empty() && outStack.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
 // @lc code=end
 
 
@@ -1293,6 +1681,38 @@ public:
 
 ```
 
+### 387.字符串中的第一个唯一字符
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=387 lang=cpp
+ *
+ * [387] 字符串中的第一个唯一字符
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<int, int> frequency;
+        for (char ch: s) {
+            ++frequency[ch];
+        }
+
+        for (int i = 0; i < s.size(); ++i) {
+            if (frequency[s[i]] == 1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 3sum
 
 ```cpp
@@ -1477,6 +1897,91 @@ public:
             }
         }
         return count;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 496.下一个更大元素-i 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=496 lang=cpp
+ *
+ * [496] 下一个更大元素 I
+ * 单调栈 + 哈希表
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        // hashmap 存储右侧第一个最大的值
+        unordered_map<int, int> hashmap;
+        // 维护一个单调递减栈
+        stack<int> st;
+        for (int i = nums2.size() - 1; i >= 0; --i) {
+            int num = nums2[i];
+            // 如果当前值大，出栈之前的值
+            while (!st.empty() && num >= st.top()) {
+                st.pop();
+            }
+
+            // 存储右侧第一个最大的值
+            hashmap[num] = st.empty() ? -1 : st.top();
+            st.push(num);
+        }
+
+        vector<int> res(nums1.size());
+        for (int i = 0; i < nums1.size(); ++i) {
+            res[i] = hashmap[nums1[i]];
+        }
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 496.下一个更大元素-i
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=496 lang=cpp
+ *
+ * [496] 下一个更大元素 I
+ * 暴力解法
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size();
+        int n = nums2.size();
+        vector<int> res(m);
+
+        // 遍历 nums1
+        for (int i = 0; i < m; i++) {
+            int j = 0;
+            // 遍历 nums2，找到相同的
+            while (j < n && nums2[j] != nums1[i]) {
+                j++;
+            }
+            // 相同的坐标往后 + 1
+            int k = j + 1;
+            // 遍历 nums2 找到大于第一个大于的元素
+            while (k < n && nums2[k] < nums2[j]) {
+                k++;
+            }
+            // 返回找到的元素
+            res[i] = k < n ? nums2[k] : -1;
+        }
+
+        return res;
     }
 };
 // @lc code=end
@@ -2877,4 +3382,131 @@ int main()
     cout << "result" << " " << result[0] << " " << result[1] << endl;
 }
 
+```
+
+### 剑指 Offer 09. 用两个栈实现队列
+
+```cpp
+class CQueue {
+    stack<int> inStack, outStack;
+
+private:
+    void in2out() {
+        while (!inStack.empty()) {
+            outStack.push(inStack.top());
+            inStack.pop();
+        }
+    }
+
+public:
+    CQueue() {
+
+    }
+
+    void appendTail(int value) {
+        inStack.push(value);
+    }
+
+    int deleteHead() {
+        if (outStack.empty()) {
+            if (inStack.empty()) {
+                return -1;
+            }
+            in2out();
+        }
+
+        int value = outStack.top();
+        outStack.pop();
+        return value;
+    }
+};
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue* obj = new CQueue();
+ * obj->appendTail(value);
+ * int param_2 = obj->deleteHead();
+ */
+```
+
+### 剑指 Offer 30. 包含 min 函数的栈
+
+```cpp
+class MinStack {
+    stack<int> x_stack;
+    stack<int> min_stack;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        min_stack.push(INT_MAX);
+    }
+
+    void push(int x) {
+        x_stack.push(x);
+        min_stack.push(::min(min_stack.top(), x));
+    }
+
+    void pop() {
+        x_stack.pop();
+        min_stack.pop();
+    }
+
+    int top() {
+        return x_stack.top();
+    }
+
+    int min() {
+        return min_stack.top();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(x);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->min();
+ */
+```
+
+### 面试题 03.02. 栈的最小值
+
+```cpp
+class MinStack {
+    stack<int> x_stack;
+    stack<int> min_stack;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        min_stack.push(INT_MAX);
+    }
+
+    void push(int x) {
+        x_stack.push(x);
+        min_stack.push(min(min_stack.top(), x));
+    }
+
+    void pop() {
+        x_stack.pop();
+        min_stack.pop();
+    }
+
+    int top() {
+        return x_stack.top();
+    }
+
+    int getMin() {
+        return min_stack.top();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(x);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
 ```
