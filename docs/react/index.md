@@ -15,7 +15,7 @@ repo: https://github.com/xiaotiandada/build-react
 - https://github.com/xiaotiandada/build-react
 - [Build your own React](https://pomb.us/build-your-own-react/)
 - https://codesandbox.io/s/didact-8-21ost
-- https://github.com/hujiulong/blog/issues/4
+- [从零开始实现一个 React（一）：JSX 和虚拟 DOM #4](https://github.com/hujiulong/blog/issues/4)
 
 ## Tag
 
