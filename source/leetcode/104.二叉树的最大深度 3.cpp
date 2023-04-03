@@ -22,10 +22,27 @@ public:
         if (root == nullptr) {
             return 0;
         }
-        // 二叉树的最大深度可以用广度优先搜索遍历每一层，记录层数即可。
-        // 而最小深度不适合用 min 函数求解，因为对于某些特殊的情况，一个子树为空，另一个子树非空，此时如果按照 min 函数求解，则会返回 0，而实际上最小深度应该是非空子树的深度加一。
-        // 因此，最小深度需要分别考虑左右子树为空和非空的情况，取其中较小值。
-        return max(maxDepth(root->left), maxDepth(root->right)) + 1;
+
+        queue<TreeNode *> Q;
+        Q.push(root);
+        int ans = 0;
+        while (!Q.empty()) {
+            int sz = Q.size();
+            while (sz > 0) {
+                TreeNode* node = Q.front();
+                Q.pop();
+
+                if (node->left) {
+                    Q.push(node->left);
+                }
+                if (node->right) {
+                    Q.push(node->right);
+                }
+                sz -= 1;
+            }
+            ans += 1;
+        }
+        return ans;
     }
 };
 // @lc code=end

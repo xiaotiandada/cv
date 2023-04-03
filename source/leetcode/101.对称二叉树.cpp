@@ -18,15 +18,12 @@
  */
 class Solution {
 public:
-    bool check(TreeNode *p, TreeNode *q) {
-        if (!p && !q) {
-            return true;
-        }
-
-        if (!p || !q) {
-            return false;
-        }
-
+    bool check (TreeNode *p, TreeNode *q) {
+        // 都没有相等
+        if (!p && !q) return true;
+        // 有一个为空不相等
+        if (!p || !q) return false;
+        // 对比 left right，然后递归
         return p->val == q->val && check(p->left, q->right) && check(p->right, q->left);
     }
     bool isSymmetric(TreeNode* root) {

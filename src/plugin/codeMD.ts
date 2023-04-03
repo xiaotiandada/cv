@@ -96,12 +96,20 @@ order: 1
     const fileContent = await readFile(path.join(basePath, file));
     const { name, extension } = parseFileName(file);
 
-    markdownContent += `
+    const excludeExtension = ['md'];
+    if (excludeExtension.includes(extension)) {
+      markdownContent += `
+### ${name} Markdown
+${fileContent}
+`;
+    } else {
+      markdownContent += `
 ### ${name}
 \`\`\`${extension}
 ${fileContent}
 \`\`\`
 `;
+    }
   }
 
   await saveToFile(path.join(targetPath, 'leetcode.md'), markdownContent);

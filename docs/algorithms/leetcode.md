@@ -33,13 +33,17 @@ order: 1
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
+        // 如果两个二叉树都为空，则两个二叉树相同。
         if (p == nullptr && q == nullptr) {
             return true;
         } else if (p == nullptr || q == nullptr) {
+            // 如果两个二叉树中有且只有一个为空，则两个二叉树一定不相同。
             return false;
         } else if (p->val != q->val) {
+            // 如果两个二叉树都不为空，那么首先判断它们的根节点的值是否相同，若不相同则两个二叉树一定不同
             return false;
         } else {
+            // 若相同，再分别判断两个二叉树的左子树是否相同以及右子树是否相同。
             return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
         }
     }
@@ -72,15 +76,12 @@ public:
  */
 class Solution {
 public:
-    bool check(TreeNode *p, TreeNode *q) {
-        if (!p && !q) {
-            return true;
-        }
-
-        if (!p || !q) {
-            return false;
-        }
-
+    bool check (TreeNode *p, TreeNode *q) {
+        // 都没有相等
+        if (!p && !q) return true;
+        // 有一个为空不相等
+        if (!p || !q) return false;
+        // 对比 left right，然后递归
         return p->val == q->val && check(p->left, q->right) && check(p->right, q->left);
     }
     bool isSymmetric(TreeNode* root) {
@@ -164,6 +165,55 @@ public:
             return 0;
         }
 
+        if (root->left == nullptr && root->right == nullptr) {
+            return 1;
+        }
+
+        int max_depth = INT_MIN;
+        if (root->left != nullptr) {
+            max_depth = max(maxDepth(root->left), max_depth);
+        }
+
+        if (root->right != nullptr) {
+            max_depth = max(maxDepth(root->right), max_depth);
+        }
+
+        return max_depth + 1;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 104.二叉树的最大深度 3
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=104 lang=cpp
+ *
+ * [104] 二叉树的最大深度
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+
         queue<TreeNode *> Q;
         Q.push(root);
         int ans = 0;
@@ -218,6 +268,9 @@ public:
         if (root == nullptr) {
             return 0;
         }
+        // 二叉树的最大深度可以用广度优先搜索遍历每一层，记录层数即可。
+        // 而最小深度不适合用 min 函数求解，因为对于某些特殊的情况，一个子树为空，另一个子树非空，此时如果按照 min 函数求解，则会返回 0，而实际上最小深度应该是非空子树的深度加一。
+        // 因此，最小深度需要分别考虑左右子树为空和非空的情况，取其中较小值。
         return max(maxDepth(root->left), maxDepth(root->right)) + 1;
     }
 };
@@ -293,6 +346,83 @@ public:
 
 ```
 
+### 111.二叉树的最小深度 Markdown
+
+q: 为什么二叉树的最大深度广度优先搜索可以这么写，最小深度不能写成 min
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+        return max(maxDepth(root->left), maxDepth(root->right)) + 1;
+    }
+};
+```
+
+a:
+
+二叉树的最大深度可以用广度优先搜索遍历每一层，记录层数即可。而最小深度不适合用 min 函数求解，因为对于某些特殊的情况，一个子树为空，另一个子树非空，此时如果按照 min 函数求解，则会返回 0，而实际上最小深度应该是非空子树的深度加一。因此，最小深度需要分别考虑左右子树为空和非空的情况，取其中较小值。
+
+假设存在以下二叉树：
+
+```
+    1
+   / \
+  2   3
+ / \
+4   5
+```
+
+- 最大深度为 3，可以具体地按层遍历，或者递归求解，代码与题目中已给出；
+
+- 最小深度为 2，因为左子树和右子树都不为空，分别深度为 1，所以取最小值加一，即 2；可以这样写：
+
+  ```cpp
+  class Solution {
+  public:
+      int minDepth(TreeNode* root) {
+          if (root == nullptr) {
+              return 0;
+          }
+          if (root->left == nullptr && root->right == nullptr) {
+              return 1;
+          }
+          if (root->left == nullptr) {
+              return minDepth(root->right) + 1;
+          }
+          if (root->right == nullptr) {
+              return minDepth(root->left) + 1;
+          }
+          return min(minDepth(root->left), minDepth(root->right)) + 1;
+      }
+  };
+  ```
+
+- 再考虑以下二叉树：
+
+  ```
+      1
+       \
+        2
+         \
+          3
+  ```
+
+  - 最大深度为 3，同样适用已给出的求解方法；
+
+  - 最小深度为 1，因为左子树为空，所以最小深度为右子树深度加一，即 1。如果仍然使用 min 函数求解，则得到的是 0，不符合最小深度的定义。
+
+因此，对于最小深度，需要分别考虑左右子树为空和非空的情况，而不能直接使用 min 函数。
+
+最小深度不适合使用这种方法（即将 `min` 和 `maxDepth` 结合起来），因为当某一个子树为空时，`maxDepth` 函数会返回 0，导致最小深度计算错误。
+
+按照如上的方法求解最小深度，会得到 0，但实际上最小深度应该是 3，因为左子树为空，所以最小深度应该是右子树的深度加一。
+
+因此，最小深度需要分别考虑左右子树为空和非空的情况，分别比较求解即可。
+
 ### 112.路径总和
 
 ```cpp
@@ -322,9 +452,12 @@ public:
         if (root == nullptr) {
             return false;
         }
+        // 若当前节点就是叶子节点，那么我们直接判断 sum 是否等于 val 即可（因为路径和已经确定，就是当前节点的值，我们只需要判断该路径和是否满足条件）。
         if (root->left == nullptr && root->right == nullptr) {
             return targetSum == root->val;
         }
+
+        // 若当前节点不是叶子节点，我们只需要递归地询问它的子节点是否能满足条件即可。
         return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);
     }
 };
@@ -1409,14 +1542,15 @@ public:
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-
         if (root == nullptr) {
             return nullptr;
         }
 
+        // 从根节点开始，递归地对树进行遍历并从叶子节点先开始翻转
         TreeNode* left = invertTree(root->left);
         TreeNode* right = invertTree(root->right);
 
+        // 如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置
         root->left = right;
         root->right = left;
 
@@ -1811,6 +1945,58 @@ int main()
 
 ```
 
+### 404.左叶子之和
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=404 lang=cpp
+ *
+ * [404] 左叶子之和
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    bool isLeafNode(TreeNode* node) {
+        return !node->left && !node->right;
+    }
+
+    int dfs(TreeNode* node) {
+        int ans = 0;
+        if (node->left) {
+            // 左子节点是一个叶子结点，那么就将它的左子节点的值累加计入答案。否则继续递归
+            ans += isLeafNode(node->left) ? node->left->val : dfs(node->left);
+        }
+
+        // 如果是右节点并且有叶子结点
+        if (node->right && !isLeafNode(node->right)) {
+            ans += dfs(node->right);
+        }
+
+        return ans;
+    }
+
+    int sumOfLeftLeaves(TreeNode* root) {
+        return root ? dfs(root) : 0;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 45.跳跃游戏-ii
 
 ```cpp
@@ -1903,6 +2089,203 @@ public:
 
 
 ```
+
+### 463.岛屿的周长
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=463 lang=cpp
+ *
+ * [463] 岛屿的周长
+ */
+
+// @lc code=start
+class Solution {
+    // 右下左上
+    // x
+    // constexpr static int dx[4] = {0, 1, 0, -1};
+    // y
+    // constexpr static int dy[4] = {1, 0, -1, 0};
+
+    // 上右下左
+    constexpr static int dx[4] = {-1, 0, 1, 0};
+    constexpr static int dy[4] = {0, 1, 0, -1};
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                // 1 陆地
+                if (grid[i][j]) {
+                    int cnt = 0;
+                    // 四条边
+                    for (int k = 0; k < 4; ++k) {
+                        // i = 0
+                        // j = 1
+
+                        // 右
+                        // tx = 0 + 0
+                        // ty = 1 + 1
+
+                        // 下
+                        // tx = 0 + 1
+                        // ty = 1 + 0
+
+                        // 左
+                        // tx = 0 + 0
+                        // ty = 1 + -1
+
+                        // 上
+                        // tx = 0 + -1
+                        // ty = 1 + 0
+
+                        int tx = i + dx[k];
+                        int ty = j + dy[k];
+                        // 仅当这条边为网格的边界或者相邻的另一个格子为水域
+
+                        // 遍历网格时，判断当前位置 (x,y) 的相邻位置 (tx,ty) 是否越界或者是否为海洋的语句，其中：
+                        // tx < 0 表示相邻位置的行坐标小于 0，即越界了；
+                        // tx >= n 表示相邻位置的行坐标大于或等于网格的行数 n，即越界了；
+                        // ty < 0 表示相邻位置的列坐标小于 0，即越界了；
+                        // ty >= m 表示相邻位置的列坐标大于或等于网格的列数 m，即越界了；
+                        // \!grid[tx][ty] 表示相邻位置 (tx, ty) 是海洋，即没有岛屿。
+                        if (tx < 0 || tx >= n || ty < 0 || ty >= m || !grid[tx][ty]) {
+                            cnt += 1;
+                        }
+                    }
+                    ans += cnt;
+                }
+            }
+        }
+        return ans;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 463.岛屿的周长 Markdown
+
+q: tx ty 什么意思，解释一下计算方法
+
+a:
+
+`tx` 和 `ty` 分别表示当前位置 `(i, j)` 相邻的上下左右位置。在这个程序中，`dx` 和 `dy` 分别数组表示相邻位置在行和列上的偏移量，例如 `dx[0] = 0`，`dy[0] = 1`，表示 `(i, j)` 相邻的右边位置是 `(i, j+1)`。
+
+在遍历整个二维网格时，对于每一个元素，我们检查它是否为陆地，如果是陆地，我们依次检查它相邻的上下左右四个方向的情况，如果这条边是该网格的边界或者它相邻的另一个格子是水域（相当于网格中的边缘），那么我们就可以认为这些方块之间有一条边界需要被计算在周长中，这就是计算答案的方法，最后答案就是所有边长之和。
+
+具体地，分别可以通过 `(i + dx[k], j + dy[k])` 计算出它相邻格子的位置 `(tx, ty)`，并判断是否超出了网格的边界、或这个位置上是否是水域（即 `grid[tx][ty] == 0`），如果是，则当前位置上存在一个边界，即周长要加 1。循环检查四个方向，计算出这个陆地四周有几个水域，即四条边分别是否需要被加上，最后返回答案即可。
+
+<br />
+
+q: dx dy 什么意思
+
+a:
+
+`dx` 和 `dy` 是一个长度为 4 的数组，用于在二维网格中表示一个位置的上下左右位置。
+
+其中，`dx` 表示上下位置的偏移量，`dy` 表示左右位置的偏移量。例如，`dx[0] = -1, dy[0] = 0` 表示一个位置的上方位置是 `(i-1, j)`，同时 `dx[1] = 0, dy[1] = 1` 表示一个位置的右方位置是 `(i, j+1)`。
+
+在算法中，我们可以根据当前位置 `(i,j)` 和数组 `dx,dy` 来获取它四周的上下左右位置。例如，如果我们希望访问 `(i,j)` 的左方位置，可以使用 `(i+dx[2], j+dy[2])` 获取到，其中 `dx[2]` 和 `dy[2]` 分别表示它左侧位置相对于 `(i,j)` 的行偏移和列偏移。
+
+<br />
+
+q: 再详细解释一下并给出例子
+
+a:
+
+在二维网格中，一个位置 `(i,j)` 在上下左右的方向上分别有四个相邻位置，为了表示它们的位置，我们可以使用偏移量 `dx` 和 `dy`。
+
+具体地，数组 `dx` 和 `dy` 长度均为 4，分别表示当前位置 `(i,j)` 上下左右四个方向相邻位置的行和列偏移量。例如，偏移量数组的定义可以如下：
+
+```cpp
+constexpr static int dx[4] = {-1, 0, 1, 0};  // 上下偏移量
+constexpr static int dy[4] = {0, 1, 0, -1};  // 左右偏移量
+```
+
+这里的 `-1, 0, 1` 表示上下方向的偏移量，`0, 1, -1` 表示左右方向的偏移量。每个元素对应的偏移量如下所示：
+
+```
+ dx[0],dy[0]  (-1,0)  dx[1],dy[1]  (0,1)
+       ^                 |                ^
+       |                 |                |
+sx,sy--|--(i,j)--dx[2],dy[2]---|---> ex,ey
+       |                 |                |
+       v                 v                |
+ dx[3],dy[3]  (1,0)   dx[4],dy[4]  (0,-1) |
+                                            |
+                                          wx,wy
+```
+
+在上图中，`(i,j)` 表示当前位置，其中 sx、sy、ex、ey 分别代表了网格的起始行、起始列、结束行、结束列。在这里，我们定义 `dx[0] = -1, dy[0] = 0` 表示向上的偏移量（即 sx）, `dx[1] = 0, dy[1] = 1` 表示向右的偏移量（即 ey）, 以此类推，所有的偏移量都是相对于当前位置 `(i,j)` 的。这么做可以使得在遍历二维网格时，我们可以直接通过 `dx` 和 `dy` 数组获取当前位置的相邻位置，而不必再进行大量的判断和计算。
+
+例如，如果我们想要获取 `(i,j)` 上方的位置，可以直接使用 `(i+dx[0], j+dy[0])` 获取到，即 `(i-1, j)`，如果我们想要获取右上角的位置，则可以使用 `(i+dx[0], j+dy[1])` 获取到，即 `(i-1, j+1)`。
+
+<br />
+
+q: dx[4] = {-1, 0, 1, 0} 里面的四个参数什么意思
+
+a:
+
+`dx[4] = {-1, 0, 1, 0}` 表示一个长度为 4 的数组，用于在二维网格中表示一个位置的上下左右位置。
+
+具体来说，`dx` 数组的四个元素分别表示当前位置的相邻位置在上下左右四个方向上相对当前位置的行偏移量。其中：
+
+- `dx[0] = -1` 表示向上方向的偏移量是 -1，即上方相邻位置的行坐标比当前位置的行坐标小 1；
+- `dx[1] = 0` 表示向右方向的偏移量是 0，即右方相邻位置的列坐标和当前位置的列坐标相同；
+- `dx[2] = 1` 表示向下方向的偏移量是 1，即下方相邻位置的行坐标比当前位置的行坐标大 1；
+- `dx[3] = 0` 表示向左方向的偏移量是 0，即左方相邻位置的列坐标和当前位置的列坐标相同。
+
+同理，`dy[4] = {0, 1, 0, -1}` 数组的四个元素分别表示当前位置的相邻位置在上下左右四个方向上相对于当前位置的列偏移量。
+
+这种方法用偏移量的方式表示四个方向的相邻位置是很常用的，因为这种表示方法不仅简单明了，而且具有很好的可扩展性，例如如果需要处理八个方向的相邻位置，只需要把偏移量从四个扩展到八个即可。
+
+<br />
+
+q: 这段什么意思 tx < 0 || tx >= n || ty < 0 || ty >= m || !grid[tx][ty]
+
+a:
+
+这段语句是遍历网格时，判断当前位置 `(x,y)` 的相邻位置 `(tx,ty)` 是否越界或者是否为海洋的语句，其中：
+
+- `tx < 0` 表示相邻位置的行坐标小于 0，即越界了；
+- `tx >= n` 表示相邻位置的行坐标大于或等于网格的行数 n，即越界了；
+- `ty < 0` 表示相邻位置的列坐标小于 0，即越界了；
+- `ty >= m` 表示相邻位置的列坐标大于或等于网格的列数 m，即越界了；
+- `!grid[tx][ty]` 表示相邻位置 `(tx, ty)` 是海洋，即没有岛屿。
+
+如果遍历过程中满足以上任意一个条件，就表示相邻位置 `(tx,ty)` 不合法，需要跳过，进而进行下一个相邻位置的判断。因为这时的相邻位置可能越界，也可能是海洋，如果继续判断会出现错误，所以需要跳过。
+
+<br />
+
+q: 在四次边的循环过程 tx ty 会是什么值
+
+a:
+
+在四次边的循环过程中，`tx` 和 `ty` 代表当前位置 `(x,y)` 的四个相邻位置的行列坐标，具体取值如下：
+
+- 第一次循环：`tx = x-1, ty = y`，表示当前位置的上方相邻位置；
+- 第二次循环：`tx = x, ty = y+1`，表示当前位置的右方相邻位置；
+- 第三次循环：`tx = x+1, ty = y`，表示当前位置的下方相邻位置；
+- 第四次循环：`tx = x, ty = y-1`，表示当前位置的左方相邻位置。
+
+这四个相邻位置的顺序是固定的，可以用 `dx[4]` 和 `dy[4]` 两个数组来定义相邻位置的行列坐标偏移量，如下所示：
+
+```
+dx[4] = {-1, 0, 1, 0}
+dy[4] = {0, 1, 0, -1}
+```
+
+在四次循环过程中，`tx` 和 `ty` 的取值就是根据 `dx` 和 `dy` 数组来计算得出的，具体如下所示：
+
+```
+tx = x + dx[i]
+ty = y + dy[i]
+```
+
+其中 `i` 表示当前循环的次数，取值范围是 0 到 3，对应四个相邻位置。
 
 ### 496.下一个更大元素-i 2
 
@@ -2698,6 +3081,103 @@ public:
  * int param_2 = obj->get(key);
  * obj->remove(key);
  */
+// @lc code=end
+
+
+```
+
+### 71.简化路径
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=71 lang=cpp
+ *
+ * [71] 简化路径
+ */
+
+// @lc code=start
+class Solution {
+public:
+    string simplifyPath(string path) {
+        auto split = [](const string& s, char delim) -> vector<string> {
+            vector<string> ans;
+            string cur;
+
+            for (char ch : s) {
+                if (ch == delim) {
+                    ans.push_back(move(cur));
+                    cur.clear();
+                } else {
+                    cur += ch;
+                }
+            }
+
+            ans.push_back(move(cur));
+            return ans;
+        };
+
+        vector<string> names = split(path, '/');
+        vector<string> stack;
+
+        for (string& name : names) {
+            if (name == "..") {
+                if (!stack.empty()) {
+                    stack.pop_back();
+                }
+            } else if (!name.empty() && name != ".") {
+                stack.emplace_back(name);
+            }
+        }
+
+        string ans;
+        if (stack.empty()) {
+            ans = "/";
+        } else {
+            for (string& name: stack) {
+                ans += "/" + move(name);
+            }
+        }
+        return ans;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 739.每日温度
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=739 lang=cpp
+ *
+ * [739] 每日温度
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> ans(n);
+        stack<int> s;
+
+        for (int i = 0; i < n; ++i) {
+            // 74 > 73
+            while (!s.empty() && temperatures[i] > temperatures[s.top()]) {
+                // 0
+                int previousIndex = s.top();
+                // ans[0] = 1 - 0 = 1
+                ans[previousIndex] = i - previousIndex;
+                // s = []
+                s.pop();
+            }
+            s.push(i);
+        }
+
+        return ans;
+    }
+};
 // @lc code=end
 
 
