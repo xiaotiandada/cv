@@ -1724,6 +1724,53 @@ public:
 
 ```
 
+### 257.二叉树的所有路径
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=257 lang=cpp
+ *
+ * [257] 二叉树的所有路径
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void construct_paths(TreeNode* root, string path, vector<string>& paths) {
+        if (root != nullptr) {
+            path += to_string(root->val); // 把当前节点的值添加到路径中。
+            if (root->left == nullptr && root->right == nullptr) {
+                 // 如果当前节点是叶子节点，把路径添加到 paths 中。
+                paths.push_back(path);
+            } else {
+                path += "->"; // 如果当前节点不是叶子节点，添加箭头，继续递归遍历。
+                construct_paths(root->left, path, paths);
+                construct_paths(root->right, path, paths);
+            }
+        }
+    }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        construct_paths(root, "", paths);
+        return paths;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 322.零钱兑换
 
 ```cpp
@@ -2787,6 +2834,60 @@ public:
 
 ```
 
+### 559.n-叉树的最大深度
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=559 lang=cpp
+ *
+ * [559] N 叉树的最大深度
+ */
+
+// @lc code=start
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    // 计算N叉树的最大深度
+    int maxDepth(Node* root) {
+        // 当根节点为空时，返回深度0
+        if (root == nullptr) {
+            return 0;
+        }
+        // 初始化子节点的最大深度为0
+        int maxChildDepth = 0;
+        // 获取根节点的所有子节点
+        vector<Node*> children = root->children;
+        for (auto child : children) { // 遍历子节点
+            int childDepth = maxDepth(child);  // 递归计算每个子节点的深度
+            maxChildDepth = max(maxChildDepth, childDepth); // 更新最大子节点深度
+        }
+        return maxChildDepth + 1;  // 返回最大深度加上根节点的深度1
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 589.n-叉树的前序遍历
 
 ```cpp
@@ -2830,6 +2931,65 @@ public:
     }
 
     vector<int> preorder(Node* root) {
+        vector<int> res;
+        helper(root, res);
+        return res;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 590.n-叉树的后序遍历
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=590 lang=cpp
+ *
+ * [590] N 叉树的后序遍历
+ */
+
+// @lc code=start
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    // 辅助函数
+    void helper(const Node* root, vector<int>& res) {
+        // 若节点为空则直接返回
+        if (root == nullptr) {
+            return;
+        }
+
+        // 递归遍历每一个子节点
+        for (auto& ch : root->children) {
+            helper(ch, res);
+        }
+
+        // 将当前节点的值加入结果数组中
+        res.emplace_back(root->val);
+    }
+
+    vector<int> postorder(Node* root) {
         vector<int> res;
         helper(root, res);
         return res;
