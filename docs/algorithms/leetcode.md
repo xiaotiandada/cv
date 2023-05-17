@@ -573,6 +573,97 @@ public:
 
 ```
 
+### 141.环形链表
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=141 lang=cpp
+ *
+ * [141] 环形链表
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+      if (head == nullptr || head->next == nullptr) {
+        return false;
+      }
+
+      ListNode* slow = head;
+      ListNode* fast = head->next;
+
+      while (slow != fast) {
+        if (fast == nullptr || fast->next == nullptr) {
+          return false;
+        }
+
+        slow = slow->next;
+        fast = fast->next->next;
+      }
+      return true;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 142.环形链表-ii
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=142 lang=cpp
+ *
+ * [142] 环形链表 II
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast != nullptr) {
+          slow = slow->next;
+          if (fast->next == nullptr) {
+            return nullptr;
+          }
+          fast = fast->next->next;
+          if (fast == slow) {
+            ListNode *ptr = head;
+            while (ptr != slow) {
+              ptr = ptr->next;
+              slow = slow->next;
+            }
+            return ptr;
+          }
+        }
+        return nullptr;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 144.二叉树的前序遍历
 
 ```cpp
@@ -938,6 +1029,45 @@ public:
 
 ```
 
+### 160.相交链表
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=160 lang=cpp
+ *
+ * [160] 相交链表
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (headA == nullptr || headB == nullptr) {
+          return nullptr;
+        }
+        ListNode *pA = headA;
+        ListNode *pB = headB;
+
+        while (pA != pB) {
+          pA = pA == nullptr ? headB : pA->next;
+          pB = pB == nullptr ? headA : pB->next;
+        }
+        return pA;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 1614.括号的最大嵌套深度
 
 ```cpp
@@ -1060,6 +1190,53 @@ public:
             }
         }
         return s0 + s1;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 19.删除链表的倒数第-n-个结点
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=19 lang=cpp
+ *
+ * [19] 删除链表的倒数第 N 个结点
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+      ListNode* dummy = new ListNode(0, head);
+      ListNode* first = head;
+      ListNode* second = dummy;
+      for (int i = 0; i < n; ++i) {
+        first = first->next;
+      }
+
+      while (first) {
+        first = first->next;
+        second = second->next;
+      }
+
+      second->next = second->next->next;
+      ListNode* ans = dummy->next;
+
+      delete dummy;
+      return ans;
     }
 };
 // @lc code=end
@@ -1252,6 +1429,84 @@ public:
 
 ```
 
+### 203.移除链表元素
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=203 lang=cpp
+ *
+ * [203] 移除链表元素
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+      ListNode* dummy = new ListNode(0, head);
+      ListNode* p = dummy;
+      while (p->next != nullptr) {
+        if (p->next->val == val) {
+          p->next = p->next->next;
+        } else {
+          p = p->next;
+        }
+      }
+      return dummy->next;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 206.反转链表 2
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=206 lang=cpp
+ *
+ * [206] 反转链表
+ * 递归
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+      if (!head || !head->next) {
+        return head;
+      }
+      ListNode* newHead = reverseList(head->next);
+      head->next->next = head;
+      head->next = nullptr;
+      return newHead;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 206.反转链表
 
 ```cpp
@@ -1294,42 +1549,6 @@ public:
     }
 };
 // @lc code=end
-
-
-/*
- * @lc app=leetcode.cn id=206 lang=cpp
- *
- * [206] 反转链表
- * 方法二：递归
- */
-
-// @lc code=start
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* reverseList(ListNode* head) {
-        if (!head || !head->next) {
-            return head;
-        }
-
-        ListNode* newHead = reverseList(head->next);
-        head->next->next = head;
-        head->next = nullptr;
-        return newHead;
-    }
-};
-// @lc code=end
-
-
 ```
 
 ### 208.实现-trie-前缀树
@@ -1392,6 +1611,53 @@ public:
  * bool param_2 = obj->search(word);
  * bool param_3 = obj->startsWith(prefix);
  */
+// @lc code=end
+
+
+```
+
+### 21.合并两个有序链表
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=21 lang=cpp
+ *
+ * [21] 合并两个有序链表
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+      ListNode* preHead = new ListNode(-1);
+      ListNode* prev = preHead;
+
+      while (list1 != nullptr && list2 != nullptr) {
+        if (list1->val < list2->val) {
+          prev->next = list1;
+          list1 = list1->next;
+        } else {
+          prev->next = list2;
+          list2 = list2->next;
+        }
+        prev = prev->next;
+      }
+
+      prev->next = list1 == nullptr ? list2 : list1;
+
+      return preHead->next;
+    }
+};
 // @lc code=end
 
 
@@ -1555,6 +1821,54 @@ public:
         root->right = left;
 
         return root;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 23.合并-k-个升序链表
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=23 lang=cpp
+ *
+ * [23] 合并 K 个升序链表
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+      vector<int> nodes;
+      for (auto l : lists) {
+        while (l) {
+          nodes.emplace_back(l->val);
+          l = l->next;
+        }
+      }
+
+      sort(nodes.begin(), nodes.end());
+      ListNode* dummy = new ListNode(-1);
+      ListNode* p = dummy;
+
+      for (auto val : nodes) {
+        p->next = new ListNode(val);
+        p = p->next;
+      }
+
+      return dummy->next;
     }
 };
 // @lc code=end
@@ -1771,6 +2085,102 @@ public:
 
 ```
 
+### 26.删除有序数组中的重复项
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=26 lang=cpp
+ *
+ * [26] 删除有序数组中的重复项
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+      int n = nums.size();
+      if (n == 0) {
+        return 0;
+      }
+
+      int fast = 1;
+      int slow = 1;
+
+      while (fast < n) {
+        if (nums[fast]!= nums[fast - 1]) {
+          nums[slow] = nums[fast];
+          ++slow;
+        }
+        fast++;
+      }
+
+      return slow;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 27.移除元素
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=27 lang=cpp
+ *
+ * [27] 移除元素
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+      int n = nums.size();
+      int left = 0;
+      for (int right = 0; right < n; right++) {
+        if (nums[right] != val) {
+          nums[left] = nums[right];
+          left++;
+        }
+      }
+      return left;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 283.移动零
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=283 lang=cpp
+ *
+ * [283] 移动零
+ */
+
+// @lc code=start
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+      int n = nums.size();
+      int left = 0;
+      int right = 0;
+      while (right < n) {
+        if (nums[right]) {
+          swap(nums[left], nums[right]);
+          left++;
+        }
+        right++;
+      }
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 322.零钱兑换
 
 ```cpp
@@ -1857,6 +2267,55 @@ public:
         return false;
     }
 };
+// @lc code=end
+
+
+```
+
+### 384.打乱数组
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=384 lang=cpp
+ *
+ * [384] 打乱数组
+ */
+
+// @lc code=start
+class Solution {
+public:
+    Solution(vector<int>& nums) {
+        this->nums = nums;
+        this->original.resize(nums.size());
+        copy(nums.begin(), nums.end(), original.begin());
+    }
+
+    vector<int> reset() {
+        copy(original.begin(), original.end(), nums.begin());
+        return nums;
+    }
+
+    vector<int> shuffle() {
+        random_device rd;
+        int n = nums.size();
+        for (int i = n - 1; i > 0; --i) {
+            // int j = rand() % (i + 1);
+            int j = rd() % (i + 1);
+            swap(nums[i], nums[j]);
+        }
+        return nums;
+    }
+private:
+    vector<int> nums;
+    vector<int> original;
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
 // @lc code=end
 
 
@@ -3379,6 +3838,99 @@ public:
 
 ```
 
+### 83.删除排序链表中的重复元素
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=83 lang=cpp
+ *
+ * [83] 删除排序链表中的重复元素
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+      if (!head) {
+        return head;
+      }
+
+      ListNode* cur = head;
+      while (cur->next) {
+        if (cur->val == cur->next->val) {
+          cur->next = cur->next->next;
+        } else {
+          cur = cur->next;
+        }
+      }
+
+      return head;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 86.分隔链表
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=86 lang=cpp
+ *
+ * [86] 分隔链表
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+      ListNode* small = new ListNode(0);
+      ListNode* smallHead = small;
+      ListNode* large = new ListNode(0);
+      ListNode* largeHead = large;
+
+      while (head != nullptr) {
+        if (head->val < x) {
+          small->next = head;
+          small = small->next;
+        } else {
+          large->next = head;
+          large = large->next;
+        }
+        head = head->next;
+      }
+
+      large->next = nullptr;
+      small->next = largeHead->next;
+      return smallHead->next;
+    }
+};
+// @lc code=end
+
+
+```
+
 ### 860.柠檬水找零
 
 ```cpp
@@ -3416,6 +3968,84 @@ public:
             }
         }
         return true;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 876.链表的中间结点
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=876 lang=cpp
+ *
+ * [876] 链表的中间结点
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+      ListNode* slow = head;
+      ListNode* fast = head;
+      while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+      }
+      return slow;
+    }
+};
+// @lc code=end
+
+
+```
+
+### 88.合并两个有序数组
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=88 lang=cpp
+ *
+ * [88] 合并两个有序数组
+ */
+
+// @lc code=start
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+      int p1 = 0;
+      int p2 = 0;
+      int sorted[m + n];
+      int cur;
+      while (p1 < m || p2 < n) {
+        if (p1 == m) {
+          cur = nums2[p2++];
+        } else if (p2 == n) {
+          cur = nums1[p1++];
+        } else if (nums1[p1] < nums2[p2]) {
+          cur = nums1[p1++];
+        } else {
+          cur = nums2[p2++];
+        }
+
+        sorted[p1 + p2 - 1] = cur;
+      }
+
+      for (int i = 0; i != m + n; ++i) {
+        nums1[i] = sorted[i];
+      }
     }
 };
 // @lc code=end
@@ -3722,6 +4352,55 @@ public:
 
         return nums;
     }
+};
+// @lc code=end
+
+
+```
+
+### 92.反转链表-ii
+
+```cpp
+/*
+ * @lc app=leetcode.cn id=92 lang=cpp
+ *
+ * [92] 反转链表 II
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+  ListNode* reverseBetween(ListNode* head, int left, int right) {
+    if (left == 1) {
+      return reverseN(head, right);
+    }
+    head->next = reverseBetween(head->next, left - 1, right - 1);
+    return head;
+  }
+private:
+  ListNode* successor = nullptr;
+
+  ListNode* reverseN(ListNode* head, int n) {
+    if (n == 1) {
+      successor = head->next;
+      return head;
+    }
+
+    ListNode* last = reverseN(head->next, n - 1);
+    head->next->next = head;
+    head->next = successor;
+    return last;
+  }
 };
 // @lc code=end
 
@@ -4067,6 +4746,38 @@ public:
  * obj->appendTail(value);
  * int param_2 = obj->deleteHead();
  */
+```
+
+### 剑指 Offer 22. 链表中倒数第 k 个节点
+
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getKthFromEnd(ListNode* head, int k) {
+      ListNode* fast = head;
+      ListNode* slow = head;
+
+      while (fast && k > 0) {
+        fast = fast->next;
+        k--;
+      }
+
+      while (fast) {
+        fast = fast->next;
+        slow = slow->next;
+      }
+
+      return slow;
+    }
+};
 ```
 
 ### 剑指 Offer 30. 包含 min 函数的栈
