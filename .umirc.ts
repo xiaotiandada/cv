@@ -26,6 +26,7 @@ export default defineConfig({
       { title: 'Chain', path: '/chain' },
       { title: '课程学习', path: '/course' },
       { title: 'React', path: '/react' },
+      { title: 'Preact', path: '/preact' },
       { title: '数据结构与算法', path: '/algorithms' },
       {
         title: 'GitHub',
