@@ -6,6 +6,8 @@ title: PReact 学习
 
 ### v1.3.0
 
+#### 最小化渲染
+
 ```tsx | pure
 import { render, VNode } from './preact';
 
@@ -167,3 +169,65 @@ function build(dom: any, vnode: VNode, rootComponent?: unknown) {
 这是一个最小化的实现，手动实例化 `VNode` 调用 `render` 挂载到 `root` 节点上。
 
 后续的基于这个改动。
+
+#### 设置基本属性
+
+```tsx | pure
+// new & updated attributes
+if (attrs !== EMPTY) {
+  for (let name in attrs) {
+    if (attrs.hasOwnProperty(name)) {
+      let value = attrs[name];
+      if (value !== undefined && value !== null && value !== false) {
+        let prev = getAccessor(out, name, old[name]);
+        if (value !== prev) {
+          setAccessor(out, name, value, old[name]);
+        }
+      }
+    }
+  }
+}
+
+// ...
+
+/** @private Get a node's attributes as a hashmap, regardless of type. */
+function getNodeAttributes(node: VNode) {
+  console.log('getNodeAttributes list', node);
+
+  let list = node.attributes;
+  if (!list || !list.getNamedItem) return list;
+  if (list.length) return getAttributesAsObject(list);
+}
+
+/** @private Convert a DOM `.attributes` NamedNodeMap to a hashmap. */
+function getAttributesAsObject(list: { [key: string]: string }) {
+  console.log('getAttributesAsObject list', list);
+  let attrs: { [key: string]: string } = {};
+  return attrs;
+}
+
+/** @private Get the value of a rendered attribute */
+function getAccessor(node: HTMLElement, name: string, value: string) {
+  if (name === 'class') return node.className;
+  if (name === 'style') return node.style.cssText;
+  return value;
+}
+
+/** @private Set a named attribute on the given Node, with special behavior for some names and event handlers.
+ *	If `value` is `null`, the attribute/handler will be removed.
+ */
+function setAccessor(node: HTMLElement, name: string, value: string, old: any) {
+  if (name === 'class') {
+    node.className = value;
+  }
+  if (name === 'style') {
+    node.style.cssText = value;
+  } else {
+    setComplexAccessor(node, name, value, old);
+  }
+}
+/** @private For props without explicit behavior, apply to a Node as event handlers or attributes. */
+function setComplexAccessor(node: HTMLElement, name: string, value: string, old: any) {
+  node.setAttribute(name, value);
+}
+```
