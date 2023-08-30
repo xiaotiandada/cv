@@ -21,7 +21,6 @@ export default defineConfig({
     'en-US': [
       { title: 'Guide', path: '/guide' },
       { title: 'UI', path: '/ui' },
-      { title: 'Hooks', path: '/hooks' },
       { title: 'Utils', path: '/utils' },
       { title: 'Chain', path: '/chain' },
       { title: '课程学习', path: '/course' },
