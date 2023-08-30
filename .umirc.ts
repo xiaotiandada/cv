@@ -14,14 +14,11 @@ export default defineConfig({
   mode: 'site',
   menus: {
     // '/ui': ui,
-    // '/hooks': hooks,
-    // '/utils': utils,
   },
   navs: {
     'en-US': [
       { title: 'Guide', path: '/guide' },
       { title: 'UI', path: '/ui' },
-      { title: 'Utils', path: '/utils' },
       { title: 'Chain', path: '/chain' },
       { title: '课程学习', path: '/course' },
       { title: 'React', path: '/react' },
