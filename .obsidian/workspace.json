@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "source/leetcode/70. 爬楼梯.md",
+                "file": "source/leetcode/704. 二分查找.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "source/leetcode/70. 爬楼梯.md",
+                "file": "source/leetcode/704. 二分查找.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "source/leetcode/70. 爬楼梯.md",
+                "file": "source/leetcode/704. 二分查找.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "source/leetcode/70. 爬楼梯.md"
+                "file": "source/leetcode/704. 二分查找.md"
               }
             }
           },
@@ -157,8 +157,9 @@
   },
   "active": "0089ea916ad301d0",
   "lastOpenFiles": [
-    "source/leetcode/746. 使用最小花费爬楼梯.md",
     "source/leetcode/70. 爬楼梯.md",
+    "source/leetcode/704. 二分查找.md",
+    "source/leetcode/746. 使用最小花费爬楼梯.md",
     "README.md",
     "source/leetcode/27. 移除元素.md",
     "source/leetcode/15.三数之和.md"
