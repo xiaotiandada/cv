@@ -4,5 +4,7 @@
   "obsidian-auto-link-title",
   "obsidian-tidy-footnotes",
   "cm-editor-syntax-highlight-obsidian",
-  "editing-toolbar"
+  "editing-toolbar",
+  "obsidian-tasks-plugin",
+  "obsidian-kanban"
 ]
