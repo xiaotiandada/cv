@@ -1,5 +1,7 @@
 # docs
 
+> 准备废弃，GitHub Repo 维护 Markdown 可以很好的管理源但不方便写作。
+
 ## Getting Started
 
 Install dependencies,
